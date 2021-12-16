@@ -6,13 +6,19 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    FlatList
+    Animated,
+    FlatList,
 } from "react-native";
 
 import { icons, images, SIZES, COLORS } from '../constants'
 
-const Home = ({ navigation }) => {
-
+const Cart = ({route, navigation }) => {
+  const scrollX = new Animated.Value(0);
+  const [restaurant, setRestaurant] = React.useState(null);
+//   React.useEffect(() => {
+//     let { item, currentLocation } = route.params;
+//     setRestaurant(item)
+// })
     // Dummy Datas
 
     const initialCurrentLocation = {
@@ -357,8 +363,12 @@ const Home = ({ navigation }) => {
     }
 
     function renderHeader() {
+      
         return (
             <View style={{ flexDirection: 'row', height: 50 }}>
+              {
+        renderDots()
+              }
                 <TouchableOpacity
                     style={{
                         width: 50,
@@ -367,7 +377,7 @@ const Home = ({ navigation }) => {
                     }}
                 >
                     <Image
-                        source={icons.nearby}
+                        source={icons.back}
                         resizeMode="contain"
                         style={{
                             width: 30,
@@ -377,30 +387,17 @@ const Home = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <View
-                        style={{
-                            width: '70%',
-                            height: "100%",
-                            backgroundColor: COLORS.lightGray3,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: SIZES.radius
-                        }}
-                    >
-                        <Text style={{  }}>{currentLocation.streetName}</Text>
-                    </View>
+                        <Text style={{  }}>SEPET</Text>
+
                 </View>
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={{
                         width: 50,
                         paddingRight: SIZES.padding * 2,
                         justifyContent: 'center'
                     }}
-                    onPress={() => navigation.navigate("Restaurant", {
-                        item,
-                        currentLocation
-                    })}
+                    onPress={() => navigation.navigate("Cart")}
                 >
                     <Image
                         source={icons.basket}
@@ -410,7 +407,7 @@ const Home = ({ navigation }) => {
                             height: 30
                         }}
                     />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         )
     }
@@ -479,8 +476,61 @@ const Home = ({ navigation }) => {
             </View>
         )
     }
+    function renderDots() {
+
+      const dotPosition = Animated.divide(scrollX, SIZES.width)
+
+      return (
+          <View style={{ height: 30 }}>
+              <View
+                  style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: SIZES.padding
+                  }}
+              >
+                  {restaurant?.menu.map((item, index) => {
+
+                      const opacity = dotPosition.interpolate({
+                          inputRange: [index - 1, index, index + 1],
+                          outputRange: [0.3, 1, 0.3],
+                          extrapolate: "clamp"
+                      })
+
+                      const dotSize = dotPosition.interpolate({
+                          inputRange: [index - 1, index, index + 1],
+                          outputRange: [SIZES.base * 0.8, 10, SIZES.base * 0.8],
+                          extrapolate: "clamp"
+                      })
+
+                      const dotColor = dotPosition.interpolate({
+                          inputRange: [index - 1, index, index + 1],
+                          outputRange: [COLORS.darkgray, COLORS.primary, COLORS.darkgray],
+                          extrapolate: "clamp"
+                      })
+
+                      return (
+                          <Animated.View
+                              key={`dot-${index}`}
+                              opacity={opacity}
+                              style={{
+                                  borderRadius: SIZES.radius,
+                                  marginHorizontal: 6,
+                                  width: dotSize,
+                                  height: dotSize,
+                                  backgroundColor: dotColor
+                              }}
+                          />
+                      )
+                  })}
+              </View>
+          </View>
+      )
+  }
 
     function renderRestaurantList() {
+      
         const renderItem = ({ item }) => (
             <TouchableOpacity
                 style={{ marginBottom: SIZES.padding * 2 }}
@@ -492,20 +542,28 @@ const Home = ({ navigation }) => {
                 {/* Image */}
                 <View
                     style={{
+                        flexDirection:'row',
+                        backgroundColor:'white',
+                        borderRadius:20,
                         marginBottom: SIZES.padding
                     }}
                 >
                     <Image
                         source={item.photo}
-                        resizeMode="cover"
                         style={{
-                            width: "100%",
-                            height: 200,
+                            width: "30%",
+                            height: 100,
                             borderRadius: SIZES.radius
                         }}
                     />
+                    <View style={styles.infoBox}>
+                      <Text style = {styles.title}>{item.name}</Text>
+                      <Text style = {styles.desc}>{item.name}</Text>
 
-                    <View
+                    </View>
+
+
+                    {/* <View
                         style={{
                             position: 'absolute',
                             bottom: 0,
@@ -520,11 +578,9 @@ const Home = ({ navigation }) => {
                         }}
                     >
                         <Text style={{  }}>{item.duration}</Text>
-                    </View>
+                    </View> */}
                 </View>
 
-                {/* Restaurant Info */}
-                <Text style={{  }}>{item.name}</Text>
 
                 <View
                     style={{
@@ -532,20 +588,9 @@ const Home = ({ navigation }) => {
                         flexDirection: 'row'
                     }}
                 >
-                    {/* Rating */}
-                    <Image
-                        source={icons.star}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.primary,
-                            marginRight: 10
-                        }}
-                    />
-                    <Text style={{  }}>{item.rating}</Text>
 
                     {/* Categories */}
-                    <View
+                    {/* <View
                         style={{
                             flexDirection: 'row',
                             marginLeft: 10
@@ -563,10 +608,10 @@ const Home = ({ navigation }) => {
                                     </View>
                                 )
                             })
-                        }
+                        } */}
 
                         {/* Price */}
-                        {
+                        {/* {
                             [1, 2, 3].map((priceRating) => (
                                 <Text
                                     key={priceRating}
@@ -576,7 +621,7 @@ const Home = ({ navigation }) => {
                                 >$</Text>
                             ))
                         }
-                    </View>
+                    </View> */}
                 </View>
             </TouchableOpacity>
         )
@@ -593,12 +638,23 @@ const Home = ({ navigation }) => {
             />
         )
     }
+    function orderingBox(){
+        return(
+            <View style = {{width:'100%', backgroundColor:'white', height:'20%',alignItems:'flex-end', justifyContent:'flex-end'}}>
+                <TouchableOpacity style = {{backgroundColor:'orange', width:'30%', height:'30%',borderRadius:40, marginRight:30, alignItems:'center',justifyContent:'center'}}>
+                    <Text style = {{color:'white', fontWeight:'bold'}}>ORDER</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
-            {renderMainCategories()}
+            {/* {renderMainCategories()} */}
             {renderRestaurantList()}
+            {orderingBox()}
+
         </SafeAreaView>
     )
 }
@@ -617,7 +673,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 3,
         elevation: 1,
+    },
+    title:{
+      fontWeight:'bold'
+    },
+    desc:{
+
+    },
+    infoBox:{
+      justifyContent:'center'
     }
 })
 
-export default Home;
+export default Cart;
