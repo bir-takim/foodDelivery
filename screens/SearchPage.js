@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
 import {
     SafeAreaView,
     View,
@@ -8,13 +8,11 @@ import {
     Image,
     FlatList
 } from "react-native";
-import { connect } from 'react-redux';
-import { fetchCategories } from '../actions/mainAction';
 
 import { icons, images, SIZES, COLORS } from '../constants'
 
-const Home = ({ navigation, categoriesValue, fetchCategories }) => {
-    console.log("log mu lan ", categoriesValue);
+const SearchPage = ({ navigation }) => {
+
     // Dummy Datas
 
     const initialCurrentLocation = {
@@ -334,32 +332,29 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
 
     ]
 
+    const [categories, setCategories] = React.useState(categoryData)
     const [selectedCategory, setSelectedCategory] = React.useState(null)
     const [restaurants, setRestaurants] = React.useState(restaurantData)
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
-    useEffect(() => {
-        fetchCategories()
-      }, []);
-      
 
 
-    // function onSelectCategory(category) {
+    function onSelectCategory(category) {
+        //filter restaurant
+        let restaurantList = restaurantData.filter(a => a.categories.includes(category.id))
 
-    //     let restaurantList = restaurantData.filter(a => a.categoriesValue.includes(category.id))
+        setRestaurants(restaurantList)
 
-    //     setRestaurants(restaurantList)
+        setSelectedCategory(category)
+    }
 
-    //     setSelectedCategory(category)
-    // }
+    function getCategoryNameById(id) {
+        let category = categories.filter(a => a.id == id)
 
-    // function getCategoryNameById(id) {
-    //     let category = categories.filter(a => a.id == id)
+        if (category.length > 0)
+            return category[0].name
 
-    //     if (category.length > 0)
-    //         return category[0].name
-
-    //     return ""
-    // }
+        return ""
+    }
 
     function renderHeader() {
         return (
@@ -422,7 +417,6 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
 
     function renderMainCategories() {
         const renderItem = ({ item }) => {
-            console.log("yeni item",item);
             return (
                 <TouchableOpacity
                     style={{
@@ -441,14 +435,14 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
                         style={{
                             width: 50,
                             height: 50,
-                            borderRadius: 55,
+                            borderRadius: 25,
                             alignItems: "center",
                             justifyContent: "center",
                             backgroundColor: (selectedCategory?.id == item.id) ? COLORS.white : COLORS.lightGray
                         }}
                     >
                         <Image
-                            source={item.Image}
+                            source={item.icon}
                             resizeMode="contain"
                             style={{
                                 width: 30,
@@ -463,7 +457,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
                             color: (selectedCategory?.id == item.id) ? COLORS.white : COLORS.black,
                         }}
                     >
-                        {item.title}
+                        {item.name}
                     </Text>
                 </TouchableOpacity>
             )
@@ -475,7 +469,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
                 <Text style={{  }}>Categories</Text>
 
                 <FlatList
-                    data={categoriesValue}
+                    data={categories}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={item => `${item.id}`}
@@ -564,7 +558,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
                                         style={{ flexDirection: 'row' }}
                                         key={categoryId}
                                     >
-                                        <Text style={{  }}>{categoriesValue.title}</Text>
+                                        <Text style={{  }}>{getCategoryNameById(categoryId)}</Text>
                                         <Text style={{ color: COLORS.darkgray }}> . </Text>
                                     </View>
                                 )
@@ -626,15 +620,4 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = state => {
-    const { categoriesValue } = state.mainReducer;
-    return {
-        categoriesValue
-    }
-  }
-  export default connect(
-    mapStateToProps,
-    {
-     fetchCategories
-    }
-  )(Home)
+export default SearchPage;

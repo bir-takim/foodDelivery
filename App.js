@@ -1,29 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Router from './Router';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { applyMiddleware, createStore } from 'redux';
+import rootReducer from './reducers/rootReducer';
+import ReduxThunk from 'redux-thunk';
+import { PersistGate } from 'redux-persist/es/integration/react';
 
-import { createStackNavigator  } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import Tabs from './navigation/tabs'
-
-import { Home, Restaurant, OrderDelivery, Cart} from './screens';
-
-const Stack = createStackNavigator();
-
-const App = () => {
-  return(
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false
-        }}
-        initialRouteName={'Cart'}
-      >
-        <Stack.Screen name="Home" component={Tabs} />
-        <Stack.Screen name="Cart" component={Cart} />
-        <Stack.Screen name="Restaurant" component={Restaurant}/>
-        <Stack.Screen name="OrderDelivery" component={OrderDelivery}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
+export default class App extends Component{
+  render(){
+    const store = createStore(rootReducer, {}, applyMiddleware(ReduxThunk))
+    const persisStore = persistStore(store)
+    return(
+      <Provider store={store}>
+       <PersistGate persistor={persisStore}>
+         <Router/>
+       </PersistGate>
+      </Provider>
+    )
+  }
 }
-
-export default App;

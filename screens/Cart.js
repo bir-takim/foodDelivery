@@ -342,7 +342,7 @@ const Cart = ({route, navigation }) => {
     const [selectedCategory, setSelectedCategory] = React.useState(null)
     const [restaurants, setRestaurants] = React.useState(restaurantData)
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
-
+    const [orderItems, setOrderItems] = React.useState([]);
 
     function onSelectCategory(category) {
         //filter restaurant
@@ -529,15 +529,15 @@ const Cart = ({route, navigation }) => {
       )
   }
 
-    function renderRestaurantList() {
-      
+    function renderOrderList() {
+        console.log("deneme", orderItems);
         const renderItem = ({ item }) => (
             <TouchableOpacity
                 style={{ marginBottom: SIZES.padding * 2 }}
-                onPress={() => navigation.navigate("Restaurant", {
-                    item,
-                    currentLocation
-                })}
+                // onPress={() => navigation.navigate("Restaurant", {
+                //     item,
+                //     currentLocation
+                // })}
             >
                 {/* Image */}
                 <View
@@ -558,7 +558,6 @@ const Cart = ({route, navigation }) => {
                     />
                     <View style={styles.infoBox}>
                       <Text style = {styles.title}>{item.name}</Text>
-                      <Text style = {styles.desc}>{item.name}</Text>
 
                     </View>
 
@@ -652,7 +651,7 @@ const Cart = ({route, navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {/* {renderMainCategories()} */}
-            {renderRestaurantList()}
+            {renderOrderList()}
             {orderingBox()}
 
         </SafeAreaView>

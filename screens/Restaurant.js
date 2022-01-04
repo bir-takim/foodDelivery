@@ -21,7 +21,6 @@ const Restaurant = ({ route, navigation }) => {
 
     React.useEffect(() => {
         let { item, currentLocation } = route.params;
-
         setRestaurant(item)
         setCurrentLocation(currentLocation)
     })
@@ -396,9 +395,10 @@ const Restaurant = ({ route, navigation }) => {
                                 alignItems: 'center',
                                 borderRadius: SIZES.radius
                             }}
-                            onPress={() => navigation.navigate("OrderDelivery", {
+                            onPress={() => navigation.navigate("Cart", {
                                 restaurant: restaurant,
-                                currentLocation: currentLocation
+                                currentLocation: currentLocation,
+                                orderItems: orderItems
                             })}
                         >
                             <Text style={{ color: COLORS.white, ...FONTS.h2 }}>Order</Text>

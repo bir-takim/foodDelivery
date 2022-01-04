@@ -7,6 +7,11 @@ import {
 
 import  { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-tabs';
 import {Home} from '../screens';
+import {OrderDelivery} from '../screens';
+import {Restaurant} from '../screens';
+// import {MyFavourite} from '../screens';
+// import {SearchPage} from '../screens';
+import icons from '../constants/icons';
 import { color } from 'react-native-reanimated';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Svg, {Path} from 'react-native-svg';
@@ -92,6 +97,7 @@ const CustomTabBar = (props) =>{
 const Tabs = () => {
     return (
         <Tab.Navigator
+            screenOptions={{headerShown: false}}
             tabBarOptions={{
                 showLabel: false,
                 style: {
@@ -119,14 +125,13 @@ const Tabs = () => {
                         />
                     )
                 }}
-               
             />
-            <Tab.Screen 
+            {/* <Tab.Screen 
                 name="Search"
-                component={Home}
+                component={SearchPage}
                 options={{
                     tabBarIcon: ({color, size}) => (
-                        <MaterialCommunityIcons name="card-search-outline" color={'orange'} size={35} />
+                        <MaterialCommunityIcons name="silverware-fork-knife" color={'orange'} size={35} />
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton
@@ -134,10 +139,10 @@ const Tabs = () => {
                         />
                     )
                 }}
-            />
+            /> */}
              <Tab.Screen 
                 name="Like"
-                component={Home}
+                component={OrderDelivery}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="cards-heart" color={'orange'} size={35} />
@@ -151,7 +156,7 @@ const Tabs = () => {
             />
              <Tab.Screen 
                 name="User"
-                component={Home}
+                component={Restaurant}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="account" color={'orange'} size={35} />
