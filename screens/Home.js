@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, isValidElement } from 'react';
 import {
     SafeAreaView,
     View,
@@ -8,6 +8,7 @@ import {
     Image,
     FlatList
 } from "react-native";
+import { isURLSearchParams } from 'react-native-axios/lib/utils';
 import { connect } from 'react-redux';
 import { fetchCategories } from '../actions/mainAction';
 
@@ -336,30 +337,17 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
 
     const [selectedCategory, setSelectedCategory] = React.useState(null)
     const [restaurants, setRestaurants] = React.useState(restaurantData)
+    const [isFavourite, setFavourites] = React.useState(false)
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
     useEffect(() => {
         fetchCategories()
       }, []);
       
+    function onSelectedFavourite(isFavorite){
 
-
-    // function onSelectCategory(category) {
-
-    //     let restaurantList = restaurantData.filter(a => a.categoriesValue.includes(category.id))
-
-    //     setRestaurants(restaurantList)
-
-    //     setSelectedCategory(category)
-    // }
-
-    // function getCategoryNameById(id) {
-    //     let category = categories.filter(a => a.id == id)
-
-    //     if (category.length > 0)
-    //         return category[0].name
-
-    //     return ""
-    // }
+        setFavourites(isFavorite)
+       
+    }
 
     function renderHeader() {
         return (
@@ -498,9 +486,36 @@ const Home = ({ navigation, categoriesValue, fetchCategories }) => {
                 {/* Image */}
                 <View
                     style={{
-                        marginBottom: SIZES.padding
+                        marginBottom: SIZES.padding,
+                        // alignItems:'flex-end'
                     }}
                 >
+                    <TouchableOpacity
+                    onPress = {() => isFavourite == true? onSelectedFavourite(false) : onSelectedFavourite(true)}
+                    style={{
+                        height: 35,
+                        position:'absolute',
+                        right:0,
+                        marginRight:20,
+                        marginTop:20,
+                        zIndex:2,
+                        width: 35,
+                        tintColor: COLORS.primary,
+
+                    }}
+                    >
+                    <Image
+                        source={icons.like}
+                        style={{
+                            height: 35,
+                            // position:'absolute',
+                            right:0,
+                            zIndex:2,
+                            width: 35,
+                            tintColor: isFavourite == false ? 'black' : COLORS.primary
+                        }}
+                    />
+                    </TouchableOpacity>
                     <Image
                         source={item.photo}
                         resizeMode="cover"
