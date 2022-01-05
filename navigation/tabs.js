@@ -15,6 +15,7 @@ import icons from '../constants/icons';
 import { color } from 'react-native-reanimated';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Svg, {Path} from 'react-native-svg';
+import MyFavourite from '../screens/MyFavourite';
 
 const Tab = createBottomTabNavigator();
 
@@ -142,7 +143,7 @@ const Tabs = () => {
             /> */}
              <Tab.Screen 
                 name="Like"
-                component={OrderDelivery}
+                component={MyFavourite}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="cards-heart" color={'orange'} size={35} />
