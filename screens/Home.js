@@ -13,12 +13,13 @@ import { connect } from 'react-redux';
 import { fetchCategories } from '../actions/mainAction';
 
 import { icons, images, SIZES, COLORS } from '../constants'
+import { PhoneHeight } from '../constants/config';
 
 const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
     console.log("proppsssss", route.params);
     // Dummy Datas
     const initialCurrentLocation = {
-        streetName: "Kuching",
+        streetName: "Sarıçam",
         gps: {
             latitude: 1.5496614931250685,
             longitude: 110.36381866919922
@@ -377,8 +378,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                             alignItems: "center",
                             justifyContent: "center",
                             backgroundColor: (selectedCategory?.id == item.id) ? COLORS.white : COLORS.lightGray
-                        }}
-                    >
+                        }}>
                         <Image
                             source={item.Image}
                             resizeMode="contain"
@@ -388,7 +388,6 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                             }}
                         />
                     </View>
-
                     <Text
                         style={{
                             marginTop: SIZES.padding,
@@ -403,8 +402,8 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
 
         return (
             <View style={{ padding: SIZES.padding * 2 }}>
-                <Text style={{  }}>Main</Text>
-                <Text style={{  }}>Categories</Text>
+                <Text style={{ fontWeight:'bold', fontSize:20 }}>Main</Text>
+                <Text style={{ fontSize:20 }}>Categories</Text>
 
                 <FlatList
                     data={categoriesValue}

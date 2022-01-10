@@ -19,7 +19,7 @@ const MyFavourite = ({route, navigation }) => {
     // Dummy Datas
 
     const initialCurrentLocation = {
-        streetName: "Kuching",
+        streetName: "Sarıçam",
         gps: {
             latitude: 1.5496614931250685,
             longitude: 110.36381866919922
@@ -548,10 +548,9 @@ const MyFavourite = ({route, navigation }) => {
                         <Image
                             source={icons.like}
                             style={{
-                                height: 35,
-                                right:0,
+                                height: 20,
                                 zIndex:2,
-                                width: 35,
+                                width: 20,
                                 tintColor: isFavourite == false ? 'black' : COLORS.primary
                             }}/>
                         </TouchableOpacity>
@@ -622,24 +621,24 @@ const styles = StyleSheet.create({
     title:{
       fontWeight:'bold',
       marginLeft:PhoneWidth * 0.01,
-      padding:PhoneHeight * 0.01
     },
     infoBox:{
       width: PhoneWidth * 0.65,
       flexDirection:'column',
-      justifyContent:'space-between'
+    //   justifyContent:'space-between'
     },
     favBtnBox:{
         width: PhoneWidth*0.1,
         height: PhoneHeight*0.05,
         borderWidth:0,
         position:'absolute',
-        right: PhoneWidth * 0.05,
-        top: PhoneWidth * 0.05,
+        right: PhoneWidth * 0.01,
+        top: PhoneWidth * 0.01,
         alignItems:'center',
         justifyContent:'center'
     },
     iconButton:{
+
     }
 })
 

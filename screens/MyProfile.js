@@ -148,14 +148,11 @@ const MyProfile = ({ route, navigation }) => {
     function renderUserInfos() {
         return (
             <View style = {styles.containerUserInfo}>
-                <View style = {styles.userPhoto}>
                     <Image
                         style = {styles.userPhoto}
                         source = {images.profilePhotoPng}
                     />
-                    <Text style = {{top:85, left:40,color:'white',fontWeight:'bold' }}>change</Text>
-                    <Text style = {{top:80, left:45,color:'white',fontWeight:'bold' }}>photo</Text>
-                </View>
+
                 <View style = {styles.buttons}>
                     <TouchableOpacity
                         style = {styles.button}
@@ -362,7 +359,9 @@ const styles = StyleSheet.create({
     userPhoto:{
         position:'absolute',
         borderRadius:400,
-        borderWidth:1,
+        borderWidth:8,
+        borderColor:'orange',
+        top:10,
         width: PhoneWidth * 0.3,
         height: PhoneHeight * 0.15,
     },
