@@ -374,7 +374,9 @@ const MyFavourite = ({route, navigation }) => {
                         width: 50,
                         paddingLeft: SIZES.padding * 2,
                         justifyContent: 'center'
-                    }}>
+                    }}
+                    onPress={() => navigation.goBack()}
+                    >
                     <Image
                         source={icons.back}
                         resizeMode="contain"

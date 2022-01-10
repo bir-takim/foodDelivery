@@ -1,11 +1,11 @@
 import Home from './Home';
 import OrderDelivery from './OrderDelivery';
-import Restaurant from './Restaurant';
+import MyProfile from './MyProfile';
 import Cart from './Cart';
 
 export {
     Home,
     OrderDelivery,
-    Restaurant,
+    MyProfile,
     Cart
 }

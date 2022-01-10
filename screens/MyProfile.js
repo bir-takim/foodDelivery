@@ -14,7 +14,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper'
 import { icons, COLORS, SIZES, FONTS, images } from '../constants'
 import { PhoneHeight, PhoneWidth } from '../constants/config';
 
-const Restaurant = ({ route, navigation }) => {
+const MyProfile = ({ route, navigation }) => {
 
     const scrollX = new Animated.Value(0);
     const [restaurant, setRestaurant] = React.useState(null);
@@ -121,7 +121,7 @@ const Restaurant = ({ route, navigation }) => {
                             backgroundColor: COLORS.lightGray3
                         }}
                     >
-                        <Text style={{ ...FONTS.h3 }}>{restaurant?.name}</Text>
+                        <Text style={{ ...FONTS.h3 }}>My Profile</Text>
                     </View>
                 </View>
 
@@ -380,4 +380,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Restaurant;
+export default MyProfile;

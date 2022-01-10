@@ -8,7 +8,7 @@ import {
 import  { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-tabs';
 import {Home} from '../screens';
 import {OrderDelivery} from '../screens';
-import {Restaurant} from '../screens';
+import {MyProfile} from '../screens'; 
 // import {MyFavourite} from '../screens';
 // import {SearchPage} from '../screens';
 import icons from '../constants/icons';
@@ -157,7 +157,7 @@ const Tabs = () => {
             />
              <Tab.Screen 
                 name="User"
-                component={Restaurant}
+                component={MyProfile}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="account" color={'orange'} size={35} />

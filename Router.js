@@ -6,11 +6,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from './screens/Home';
 import Cart from './screens/Cart';
 import OrderDelivery from './screens/OrderDelivery';
-import Restaurant from './screens/Restaurant';
 import Tabs from './navigation/tabs';
 import SearchPage from './screens/SearchPage';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
+import MyProfile from './screens/MyProfile';
 
 class RouterComp extends Component {
     render() {
@@ -24,7 +24,7 @@ class RouterComp extends Component {
                     <Stack.Screen name="SignUp" component={SignUp} />
 
                     <Stack.Screen name="Home" component={Home} />
-                    <Stack.Screen name="Restaurant" component={Restaurant}/>
+                    <Stack.Screen name="MyProfile" component={MyProfile}/>
                     <Stack.Screen name="OrderDelivery" component={OrderDelivery}/>
                 </Stack.Navigator>
             </NavigationContainer>  
