@@ -9,6 +9,8 @@ import OrderDelivery from './screens/OrderDelivery';
 import Restaurant from './screens/Restaurant';
 import Tabs from './navigation/tabs';
 import SearchPage from './screens/SearchPage';
+import SignIn from './screens/SignIn';
+import SignUp from './screens/SignUp';
 
 class RouterComp extends Component {
     render() {
@@ -16,8 +18,11 @@ class RouterComp extends Component {
         return(
             <NavigationContainer>
                 <Stack.Navigator name = 'authStack' initialRouteName = 'Tabs' screenOptions={{headerShown: false}}>
-                    <Stack.Screen  name="Tabs" component={Tabs} />
+                    <Stack.Screen name="Tabs" component={Tabs} />
                     <Stack.Screen name="Cart" component={Cart} />
+                    <Stack.Screen name="SignIn" component={SignIn} />
+                    <Stack.Screen name="SignUp" component={SignUp} />
+
                     <Stack.Screen name="Home" component={Home} />
                     <Stack.Screen name="Restaurant" component={Restaurant}/>
                     <Stack.Screen name="OrderDelivery" component={OrderDelivery}/>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, isValidElement } from 'react';
+
 import {
     StyleSheet,
     SafeAreaView,
@@ -10,7 +11,8 @@ import {
 } from "react-native";
 import { isIphoneX } from 'react-native-iphone-x-helper'
 
-import { icons, COLORS, SIZES, FONTS } from '../constants'
+import { icons, COLORS, SIZES, FONTS, images } from '../constants'
+import { PhoneHeight, PhoneWidth } from '../constants/config';
 
 const Restaurant = ({ route, navigation }) => {
 
@@ -19,11 +21,11 @@ const Restaurant = ({ route, navigation }) => {
     const [currentLocation, setCurrentLocation] = React.useState(null);
     const [orderItems, setOrderItems] = React.useState([]);
 
-    React.useEffect(() => {
-        let { item, currentLocation } = route.params;
-        setRestaurant(item)
-        setCurrentLocation(currentLocation)
-    })
+    // React.useEffect(() => {
+    //     let { item, currentLocation } = route.params;
+    //     setRestaurant(item)
+    //     setCurrentLocation(currentLocation)
+    // })
 
     function editOrder(action, menuId, price) {
         let orderList = orderItems.slice()
@@ -143,124 +145,38 @@ const Restaurant = ({ route, navigation }) => {
         )
     }
 
-    function renderFoodInfo() {
+    function renderUserInfos() {
         return (
-            <Animated.ScrollView
-                horizontal
-                pagingEnabled
-                scrollEventThrottle={16}
-                snapToAlignment="center"
-                showsHorizontalScrollIndicator={false}
-                onScroll={Animated.event([
-                    { nativeEvent: { contentOffset: { x: scrollX } } }
-                ], { useNativeDriver: false })}
-            >
-                {
-                    restaurant?.menu.map((item, index) => (
-                        <View
-                            key={`menu-${index}`}
-                            style={{ alignItems: 'center' }}
-                        >
-                            <View style={{ height: SIZES.height * 0.35 }}>
-                                {/* Food Image */}
-                                <Image
-                                    source={item.photo}
-                                    resizeMode="cover"
-                                    style={{
-                                        width: SIZES.width,
-                                        height: "100%"
-                                    }}
-                                />
-
-                                {/* Quantity */}
-                                <View
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: - 20,
-                                        width: SIZES.width,
-                                        height: 50,
-                                        justifyContent: 'center',
-                                        flexDirection: 'row'
-                                    }}
-                                >
-                                    <TouchableOpacity
-                                        style={{
-                                            width: 50,
-                                            backgroundColor: COLORS.white,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            borderTopLeftRadius: 25,
-                                            borderBottomLeftRadius: 25
-                                        }}
-                                        onPress={() => editOrder("-", item.menuId, item.price)}
-                                    >
-                                        <Text style={{ ...FONTS.body1 }}>-</Text>
-                                    </TouchableOpacity>
-
-                                    <View
-                                        style={{
-                                            width: 50,
-                                            backgroundColor: COLORS.white,
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}
-                                    >
-                                        <Text style={{ ...FONTS.h2 }}>{getOrderQty(item.menuId)}</Text>
-                                    </View>
-
-                                    <TouchableOpacity
-                                        style={{
-                                            width: 50,
-                                            backgroundColor: COLORS.white,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            borderTopRightRadius: 25,
-                                            borderBottomRightRadius: 25
-                                        }}
-                                        onPress={() => editOrder("+", item.menuId, item.price)}
-                                    >
-                                        <Text style={{ ...FONTS.body1 }}>+</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-
-                            {/* Name & Description */}
-                            <View
-                                style={{
-                                    width: SIZES.width,
-                                    alignItems: 'center',
-                                    marginTop: 15,
-                                    paddingHorizontal: SIZES.padding * 2
-                                }}
-                            >
-                                <Text style={{ marginVertical: 10, textAlign: 'center', ...FONTS.h2 }}>{item.name} - {item.price.toFixed(2)}</Text>
-                                <Text style={{ ...FONTS.body3 }}>{item.description}</Text>
-                            </View>
-
-                            {/* Calories */}
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    marginTop: 10
-                                }}
-                            >
-                                <Image
-                                    source={icons.fire}
-                                    style={{
-                                        width: 20,
-                                        height: 20,
-                                        marginRight: 10
-                                    }}
-                                />
-
-                                <Text style={{
-                                    ...FONTS.body3, color: COLORS.darygray
-                                }}>{item.calories.toFixed(2)} cal</Text>
-                            </View>
-                        </View>
-                    ))
-                }
-            </Animated.ScrollView>
+            <View style = {styles.containerUserInfo}>
+                <View style = {styles.userPhoto}>
+                    <Image
+                        style = {styles.userPhoto}
+                        source = {images.profilePhotoPng}
+                    />
+                    <Text style = {{top:85, left:40,color:'white',fontWeight:'bold' }}>change</Text>
+                    <Text style = {{top:80, left:45,color:'white',fontWeight:'bold' }}>photo</Text>
+                </View>
+                <View style = {styles.buttons}>
+                    <TouchableOpacity
+                        style = {styles.button}
+                    />
+                     <TouchableOpacity
+                        style = {styles.button}
+                    />
+                     <TouchableOpacity
+                        style = {styles.button}
+                    />
+                     <TouchableOpacity
+                        style = {styles.button}
+                    />
+                     <TouchableOpacity
+                        style = {styles.button}
+                    />
+                     <TouchableOpacity
+                        style = {styles.button}
+                    />
+                </View>
+            </View>
         )
     }
 
@@ -426,8 +342,8 @@ const Restaurant = ({ route, navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
-            {renderFoodInfo()}
-            {renderOrder()}
+            {renderUserInfos()}
+            {/* {renderOrder()} */}
         </SafeAreaView>
     )
 }
@@ -436,6 +352,31 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.lightGray2
+    },
+    containerUserInfo:{
+        width: PhoneWidth * 1,
+        height: PhoneHeight * 0.8,
+        borderWidth: 2,
+        alignItems: 'center'
+    },
+    userPhoto:{
+        position:'absolute',
+        borderRadius:400,
+        borderWidth:1,
+        width: PhoneWidth * 0.3,
+        height: PhoneHeight * 0.15,
+    },
+    buttons:{
+        top:PhoneHeight * 0.2,
+        width: PhoneWidth * 1,
+        height: PhoneHeight * 0.6,
+        borderWidth:1
+    },
+    button:{
+        width: PhoneWidth * 1,
+        height: PhoneHeight * 0.1,
+        borderWidth:1,
+        borderColor: 'red'
     }
 })
 

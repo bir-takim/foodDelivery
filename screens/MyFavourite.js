@@ -11,6 +11,7 @@ import {
 } from "react-native";
 
 import { icons, images, SIZES, COLORS } from '../constants'
+import { PhoneWidth, PhoneHeight } from "../constants/config";
 
 const MyFavourite = ({route, navigation }) => {
   const scrollX = new Animated.Value(0);
@@ -339,6 +340,11 @@ const MyFavourite = ({route, navigation }) => {
     const [restaurants, setRestaurants] = React.useState(restaurantData)
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
     const [orderItems, setOrderItems] = React.useState([]);
+    const [isFavourite, setFavourites] = React.useState(true)
+
+    function onSelectedFavourite(isFavorite){
+        setFavourites(isFavorite)
+    }
 
     function onSelectCategory(category) {
         //filter restaurant
@@ -354,10 +360,8 @@ const MyFavourite = ({route, navigation }) => {
 
         if (category.length > 0)
             return category[0].name
-
         return ""
     }
-
     function renderHeader() {
       
         return (
@@ -370,8 +374,7 @@ const MyFavourite = ({route, navigation }) => {
                         width: 50,
                         paddingLeft: SIZES.padding * 2,
                         justifyContent: 'center'
-                    }}
-                >
+                    }}>
                     <Image
                         source={icons.back}
                         resizeMode="contain"
@@ -381,29 +384,10 @@ const MyFavourite = ({route, navigation }) => {
                         }}
                     />
                 </TouchableOpacity>
-
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{  }}>SEPET</Text>
+                        <Text style={{fontWeight:'bold'}}>🧡 FAVOURITES 🧡</Text>
 
                 </View>
-
-                {/* <TouchableOpacity
-                    style={{
-                        width: 50,
-                        paddingRight: SIZES.padding * 2,
-                        justifyContent: 'center'
-                    }}
-                    onPress={() => navigation.navigate("Cart")}
-                >
-                    <Image
-                        source={icons.basket}
-                        resizeMode="contain"
-                        style={{
-                            width: 30,
-                            height: 30
-                        }}
-                    />
-                </TouchableOpacity> */}
             </View>
         )
     }
@@ -525,22 +509,20 @@ const MyFavourite = ({route, navigation }) => {
       )
   }
 
-    function renderOrderList() {
+    function renderFavouriteList() {
         console.log("deneme", orderItems);
         const renderItem = ({ item }) => (
             <TouchableOpacity
                 style={{ marginBottom: SIZES.padding * 2 }}
-                // onPress={() => navigation.navigate("Restaurant", {
-                //     item,
-                //     currentLocation
-                // })}
             >
                 {/* Image */}
                 <View
                     style={{
+                        borderColor: 'red',
                         flexDirection:'row',
                         backgroundColor:'white',
-                        borderRadius:20,
+                        borderRadius: SIZES.radius,
+                        borderWidth:1,
                         marginBottom: SIZES.padding
                     }}
                 >
@@ -554,26 +536,24 @@ const MyFavourite = ({route, navigation }) => {
                     />
                     <View style={styles.infoBox}>
                       <Text style = {styles.title}>{item.name}</Text>
-
+                      <Text style = {styles.title}>{item.name}</Text>
                     </View>
-
-
-                    {/* <View
-                        style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            height: 50,
-                            width: SIZES.width * 0.3,
-                            backgroundColor: COLORS.white,
-                            borderTopRightRadius: SIZES.radius,
-                            borderBottomLeftRadius: SIZES.radius,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            ...styles.shadow
-                        }}
-                    >
-                        <Text style={{  }}>{item.duration}</Text>
-                    </View> */}
+                    <View style = {styles.favBtnBox}>
+                    <TouchableOpacity
+                            onPress = {() => isFavourite == true? onSelectedFavourite(false) : onSelectedFavourite(true)}
+                            style = {styles.iconButton}
+                            >
+                        <Image
+                            source={icons.like}
+                            style={{
+                                height: 35,
+                                right:0,
+                                zIndex:2,
+                                width: 35,
+                                tintColor: isFavourite == false ? 'black' : COLORS.primary
+                            }}/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
 
@@ -583,40 +563,6 @@ const MyFavourite = ({route, navigation }) => {
                         flexDirection: 'row'
                     }}
                 >
-
-                    {/* Categories */}
-                    {/* <View
-                        style={{
-                            flexDirection: 'row',
-                            marginLeft: 10
-                        }}
-                    >
-                        {
-                            item.categories.map((categoryId) => {
-                                return (
-                                    <View
-                                        style={{ flexDirection: 'row' }}
-                                        key={categoryId}
-                                    >
-                                        <Text style={{  }}>{getCategoryNameById(categoryId)}</Text>
-                                        <Text style={{ color: COLORS.darkgray }}> . </Text>
-                                    </View>
-                                )
-                            })
-                        } */}
-
-                        {/* Price */}
-                        {/* {
-                            [1, 2, 3].map((priceRating) => (
-                                <Text
-                                    key={priceRating}
-                                    style={{
-                                        color: (priceRating <= item.priceRating) ? COLORS.black : COLORS.darkgray
-                                    }}
-                                >$</Text>
-                            ))
-                        }
-                    </View> */}
                 </View>
             </TouchableOpacity>
         )
@@ -635,10 +581,12 @@ const MyFavourite = ({route, navigation }) => {
     }
     function orderingBox(){
         return(
-            <View style = {{width:'100%', backgroundColor:'white', height:'20%',alignItems:'flex-end', justifyContent:'flex-end'}}>
-                <TouchableOpacity style = {{backgroundColor:'orange', width:'30%', height:'30%',borderRadius:40, marginRight:30, alignItems:'center',justifyContent:'center'}}>
-                    <Text style = {{color:'white', fontWeight:'bold'}}>ORDER</Text>
-                </TouchableOpacity>
+            <View style = {styles.containerOrdering}>
+                <View style = {{width:'100%', backgroundColor:'white', height:'20%',alignItems:'flex-end',  borderWidth:2, justifyContent:'flex-end'}}>
+                    <TouchableOpacity style = {{backgroundColor:'orange', width:PhoneWidth* 0.3,  borderWidth:2, height:'30%',borderRadius:40, marginRight:PhoneWidth*0.05, marginBottom: PhoneHeight*0.01, alignItems:'center',justifyContent:'center'}}>
+                        <Text style = {{color:'white', fontWeight:'bold'}}>ORDER</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
@@ -647,8 +595,8 @@ const MyFavourite = ({route, navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {/* {renderMainCategories()} */}
-            {renderOrderList()}
-            {orderingBox()}
+            {renderFavouriteList()}
+            {/* {orderingBox()} */}
 
         </SafeAreaView>
     )
@@ -670,13 +618,26 @@ const styles = StyleSheet.create({
         elevation: 1,
     },
     title:{
-      fontWeight:'bold'
-    },
-    desc:{
-
+      fontWeight:'bold',
+      marginLeft:PhoneWidth * 0.01,
+      padding:PhoneHeight * 0.01
     },
     infoBox:{
-      justifyContent:'center'
+      width: PhoneWidth * 0.65,
+      flexDirection:'column',
+      justifyContent:'space-between'
+    },
+    favBtnBox:{
+        width: PhoneWidth*0.1,
+        height: PhoneHeight*0.05,
+        borderWidth:0,
+        position:'absolute',
+        right: PhoneWidth * 0.05,
+        top: PhoneWidth * 0.05,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    iconButton:{
     }
 })
 

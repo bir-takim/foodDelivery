@@ -14,10 +14,9 @@ import { fetchCategories } from '../actions/mainAction';
 
 import { icons, images, SIZES, COLORS } from '../constants'
 
-const Home = ({ navigation, categoriesValue, fetchCategories }) => {
-    console.log("log mu lan ", categoriesValue);
+const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
+    console.log("proppsssss", route.params);
     // Dummy Datas
-
     const initialCurrentLocation = {
         streetName: "Kuching",
         gps: {
