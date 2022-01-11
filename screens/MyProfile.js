@@ -15,6 +15,7 @@ import { icons, COLORS, SIZES, FONTS, images } from '../constants'
 import { PhoneHeight, PhoneWidth } from '../constants/config';
 
 const MyProfile = ({ route, navigation }) => {
+    console.log("deneme", route.params.userInfos);
 
     const scrollX = new Animated.Value(0);
     const [restaurant, setRestaurant] = React.useState(null);
@@ -154,24 +155,31 @@ const MyProfile = ({ route, navigation }) => {
                     />
 
                 <View style = {styles.buttons}>
-                    <TouchableOpacity
+                    <View
                         style = {styles.button}
-                    />
-                     <TouchableOpacity
+                    >
+                        <Text>{route.params.userInfos.fullName}</Text>
+                    </View>
+                    <View
                         style = {styles.button}
-                    />
-                     <TouchableOpacity
+                    >
+                        <Text>{route.params.userInfos.email}</Text>
+                    </View>
+                    <View
                         style = {styles.button}
-                    />
-                     <TouchableOpacity
+                    >
+                        <Text>{route.params.userInfos.phone}</Text>
+                    </View>
+                    <View
                         style = {styles.button}
-                    />
-                     <TouchableOpacity
+                    >
+                        <Text>{route.params.userInfos.gender}</Text>
+                    </View>
+                    <View
                         style = {styles.button}
-                    />
-                     <TouchableOpacity
-                        style = {styles.button}
-                    />
+                    >
+                        <Text>{route.params.userInfos.fullName}</Text>
+                    </View>
                 </View>
             </View>
         )

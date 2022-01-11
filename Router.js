@@ -17,12 +17,12 @@ class RouterComp extends Component {
         const Stack  = createStackNavigator();
         return(
             <NavigationContainer>
-                <Stack.Navigator name = 'authStack' initialRouteName = 'Tabs' screenOptions={{headerShown: false}}>
+                <Stack.Navigator name = 'authStack' initialRouteName = 'SignIn' screenOptions={{headerShown: false}}>
                     <Stack.Screen name="Tabs" component={Tabs} />
+                    <Stack.Screen name="SearchPage" component={SearchPage} />
                     <Stack.Screen name="Cart" component={Cart} />
                     <Stack.Screen name="SignIn" component={SignIn} />
                     <Stack.Screen name="SignUp" component={SignUp} />
-
                     <Stack.Screen name="Home" component={Home} />
                     <Stack.Screen name="MyProfile" component={MyProfile}/>
                     <Stack.Screen name="OrderDelivery" component={OrderDelivery}/>

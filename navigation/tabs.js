@@ -7,6 +7,7 @@ import {
 
 import  { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-tabs';
 import {Home} from '../screens';
+import {SearchPage} from '../screens';
 import {OrderDelivery} from '../screens';
 import {MyProfile} from '../screens'; 
 // import {MyFavourite} from '../screens';
@@ -97,7 +98,9 @@ const CustomTabBar = (props) =>{
     )
 }
 
-const Tabs = () => {
+const Tabs = ({route}) => {
+    console.log("route", route.params.userData);
+    const userInfos = route.params.userData
     return (
         <Tab.Navigator
             screenOptions={{headerShown: false}}
@@ -118,6 +121,7 @@ const Tabs = () => {
             <Tab.Screen 
                 name="Home"
                 component={Home}
+                initialParams={{userInfos: userInfos}}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="silverware-fork-knife" color={'orange'} size={35} />
@@ -129,12 +133,12 @@ const Tabs = () => {
                     )
                 }}
             />
-            {/* <Tab.Screen 
+            <Tab.Screen 
                 name="Search"
                 component={SearchPage}
                 options={{
                     tabBarIcon: ({color, size}) => (
-                        <MaterialCommunityIcons name="silverware-fork-knife" color={'orange'} size={35} />
+                        <MaterialCommunityIcons name="magnify" color={'orange'} size={35} />
                     ),
                     tabBarButton: (props) => (
                         <TabBarCustomButton
@@ -142,7 +146,7 @@ const Tabs = () => {
                         />
                     )
                 }}
-            /> */}
+            />
              <Tab.Screen 
                 name="Like"
                 component={MyFavourite}
@@ -160,6 +164,7 @@ const Tabs = () => {
              <Tab.Screen 
                 name="User"
                 component={MyProfile}
+                initialParams={{userInfos: userInfos}}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="account" color={'orange'} size={35} />

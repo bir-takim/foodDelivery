@@ -16,7 +16,7 @@ import { icons, images, SIZES, COLORS } from '../constants'
 import { PhoneHeight } from '../constants/config';
 
 const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
-    console.log("proppsssss", route.params);
+    console.log("proppsssss", route.params.userInfos.fullName);
     // Dummy Datas
     const initialCurrentLocation = {
         streetName: "Sarıçam",

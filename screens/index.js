@@ -2,10 +2,12 @@ import Home from './Home';
 import OrderDelivery from './OrderDelivery';
 import MyProfile from './MyProfile';
 import Cart from './Cart';
+import SearchPage from './SearchPage';
 
 export {
     Home,
     OrderDelivery,
     MyProfile,
-    Cart
+    Cart,
+    SearchPage
 }

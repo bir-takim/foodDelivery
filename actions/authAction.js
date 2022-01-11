@@ -63,7 +63,7 @@ export const signInClicked = (phone, password) => {
              data: data
          }).then((result) => {
              console.log("resulltttt",result);
-             if(result.data.status == 'Success'){
+             if(result.status == 200){
                 dispatch({
                     type: SIGN_IN_SUCCESS,
                     payload: { data: result.data}

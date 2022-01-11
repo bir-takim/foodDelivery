@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, isValidElement } from 'react';
 import {
     SafeAreaView,
     View,
@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
+    TextInput,
     FlatList
 } from "react-native";
 
@@ -337,7 +338,105 @@ const SearchPage = ({ navigation }) => {
     const [restaurants, setRestaurants] = React.useState(restaurantData)
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
 
+    //search struct
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState(names);
+    // const [masterDataSource, setMasterDataSource] = useState(names);
+//     useEffect(() => {
+//         setMasterDataSource()
+//   }, []);
+    
 
+    const names = [
+        {id: "1", title: "Liam"},
+        {id: "2", title: "Olivia"},
+        {id: "3", title: "Noah"},
+        {id: "4", title: "Emma"},
+        {id: "5", title: "Oliver"},
+        {id: "6", title: "Evelyn"},
+        {id: "7", title: "Lucas"},
+        {id: "8", title: "Harper"},
+        {id: "9", title: "Henry"},
+        {id: "10", title: "Henna"},
+      ]
+
+    const searchFilterFunction = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+          // Inserted text is not blank
+          // Filter the masterDataSource
+          // Update FilteredDataSource
+        //   console.log("master data", masterDataSource);
+          const newData = names.filter(
+            function (item) {
+              const itemData = item.title
+                ? item.title.toUpperCase()
+                : ''.toUpperCase();
+              const textData = text.toUpperCase();
+       
+                return itemData.indexOf(textData) > -1;
+          });
+          setTimeout(() => {
+            setFilteredDataSource(newData);
+          }, 500);
+          setSearch(text);
+        } else {
+          // Inserted text is blank
+          // Update FilteredDataSource with masterDataSource
+          setFilteredDataSource(names);
+          setSearch(text);
+        }
+      };
+      const ItemView = ({item}) => {
+        return (
+          // Flat List Item
+          <Text
+            style={styles.itemStyle}
+            onPress={() => getItem(item)}>
+            {/* {item.id} */}
+            {/* {'.'} */}
+            {item.title}
+          </Text>
+        );
+      };
+      const getItem = (item) => {
+        // Function for click on an item
+        alert('Id : ' + item.id + ' Title : ' + item.title);
+      };
+      const ItemSeparatorView = () => {
+        return (
+          // Flat List Item Separator
+          <View
+            style={{
+              height: 0.5,
+              width: '100%',
+              backgroundColor: '#C8C8C8',
+            }}
+          />
+        );
+      };
+
+    function renderSearchStruct(){
+        return(
+            <SafeAreaView style={{flex: 1}}>
+                <View style={styles.container}>
+                    <TextInput
+                        style={styles.textInputStyle}
+                        onChangeText={(text) => searchFilterFunction(text)}
+                        value={search}
+                        underlineColorAndroid="transparent"
+                        placeholder="Search For Taste"
+                    />
+                    <FlatList
+                        data={filteredDataSource}
+                        keyExtractor={(item, index) => index.toString()}
+                        ItemSeparatorComponent={ItemSeparatorView}
+                        renderItem={ItemView}
+                    />
+                </View>
+            </SafeAreaView>
+        )
+    }
     function onSelectCategory(category) {
         //filter restaurant
         let restaurantList = restaurantData.filter(a => a.categories.includes(category.id))
@@ -346,6 +445,7 @@ const SearchPage = ({ navigation }) => {
 
         setSelectedCategory(category)
     }
+
 
     function getCategoryNameById(id) {
         let category = categories.filter(a => a.id == id)
@@ -596,9 +696,9 @@ const SearchPage = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {renderHeader()}
-            {renderMainCategories()}
-            {renderRestaurantList()}
+            {/* {renderHeader()} */}
+            {renderSearchStruct()}
+            {/* {renderRestaurantList()} */}
         </SafeAreaView>
     )
 }
