@@ -24,6 +24,7 @@ export const star = require("../assets/icons/star.png");
 export const sushi = require("../assets/icons/sushi.png");
 export const user = require("../assets/icons/user.png");
 export const favourite = require("../assets/icons/user.png");
+export const motoPackage = require("../assets/icons/motorcycle.png");
 
 export default {
     back,
@@ -51,4 +52,6 @@ export default {
     star,
     sushi,
     user,
+    favourite,
+    motoPackage
 }

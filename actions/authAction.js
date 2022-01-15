@@ -97,7 +97,7 @@ export const signUpClicked = (fullName, phone, email, password) => {
         })
         axios({
             method: "post",
-            url: `${BASE_API}/auth/sign-up`,
+            url: `${BASE_API}/users/sign-up`,
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -105,27 +105,10 @@ export const signUpClicked = (fullName, phone, email, password) => {
              data: data
          }).then((result) => {
              console.log("resulltttt",result);
-             if(result.data.status == 'Success'){
                 dispatch({
                     type: SIGN_UP_SUCCESS,
                     payload: { data: result.data}
                 })
-             }
-             else{
-                Alert.alert(
-                    "UYARI",
-                    "HATALI KOD VEYA ŞİFRE",
-                    [
-                     {
-                        text: "TAMAM"
-                     }
-                    ]
-                  );
-                dispatch({  //dispatch etme işlemi yapılıyor.
-                    type: SIGN_UP_FAILED, 
-                    payload: { data: result.data}
-                })
-             }
          }).catch((err) => {
          })
     }

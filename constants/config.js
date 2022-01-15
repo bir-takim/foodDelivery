@@ -2,7 +2,7 @@ import { Dimensions, PixelRatio } from "react-native";
 
 export const PhoneHeight = Dimensions.get("window").height;
 export const PhoneWidth  = Dimensions.get("window").width;
-export const BASE_API = 'https://e-commerce-birtakim.herokuapp.com';
+export const BASE_API = 'https://food-delivery-app-project.herokuapp.com/api/v1';
 
 
 const scale = PhoneWidth / 320;

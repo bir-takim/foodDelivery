@@ -8,9 +8,10 @@ import {
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapViewDirections from "react-native-maps-directions";
 
-// import { COLORS, FONTS, icons, SIZES, GOOGLE_API_KEY } from "../constants"
+import { COLORS, FONTS, icons, SIZES, GOOGLE_API_KEY } from "../constants"
 
 const OrderDelivery = ({ route, navigation }) => {
+    console.log("harita sayfası ", route.params);
 
     const mapView = React.useRef()
 
@@ -28,7 +29,7 @@ const OrderDelivery = ({ route, navigation }) => {
         let { restaurant, currentLocation } = route.params;
 
         let fromLoc = currentLocation.gps
-        let toLoc = restaurant.location
+        let toLoc = currentLocation.gps
         let street = currentLocation.streetName
 
         let mapRegion = {
@@ -127,7 +128,7 @@ const OrderDelivery = ({ route, navigation }) => {
                 rotation={angle}
             >
                 <Image
-                    source={icons.car}
+                    source={icons.motoPackage}
                     style={{
                         width: 40,
                         height: 40
@@ -254,19 +255,19 @@ const OrderDelivery = ({ route, navigation }) => {
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         {/* Avatar */}
-                        <Image
-                            source={restaurant?.courier.avatar}
+                        {/* <Image
+                            source={}
                             style={{
                                 width: 50,
                                 height: 50,
                                 borderRadius: 25
                             }}
-                        />
+                        /> */}
 
                         <View style={{ flex: 1, marginLeft: SIZES.padding }}>
                             {/* Name & Rating */}
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text style={{ ...FONTS.h4 }}>{restaurant?.courier.name}</Text>
+                                {/* <Text style={{ ...FONTS.h4 }}>{restaurant?.courier.name}</Text> */}
                                 <View style={{ flexDirection: 'row' }}>
                                     <Image
                                         source={icons.star}

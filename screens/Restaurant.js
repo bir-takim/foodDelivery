@@ -1,4 +1,4 @@
-import React, { useState, useEffect, isValidElement } from 'react';
+import React from "react";
 import {
     StyleSheet,
     SafeAreaView,
@@ -10,15 +10,22 @@ import {
 } from "react-native";
 import { isIphoneX } from 'react-native-iphone-x-helper'
 
-import { icons, COLORS, SIZES, FONTS, images } from '../constants'
-import { PhoneHeight, PhoneWidth } from '../constants/config';
+import { icons, COLORS, SIZES, FONTS } from '../constants'
 
-const MyProfile = ({ route, navigation }) => {
-    // console.log("deneme", route.params.userInfos);
+const Restaurant = ({ route, navigation }) => {
+    console.log("RESTORAN DETAYI", route.params.item.menu);
+
     const scrollX = new Animated.Value(0);
     const [restaurant, setRestaurant] = React.useState(null);
     const [currentLocation, setCurrentLocation] = React.useState(null);
     const [orderItems, setOrderItems] = React.useState([]);
+
+    React.useEffect(() => {
+        let { item, currentLocation } = route.params;
+
+        setRestaurant(item)
+        setCurrentLocation(currentLocation)
+    })
 
     function editOrder(action, menuId, price) {
         let orderList = orderItems.slice()
@@ -48,24 +55,30 @@ const MyProfile = ({ route, navigation }) => {
                     item[0].total = newQty * price
                 }
             }
+
             setOrderItems(orderList)
         }
     }
+
     function getOrderQty(menuId) {
         let orderItem = orderItems.filter(a => a.menuId == menuId)
 
         if (orderItem.length > 0) {
             return orderItem[0].qty
         }
+
         return 0
     }
+
     function getBasketItemCount() {
         let itemCount = orderItems.reduce((a, b) => a + (b.qty || 0), 0)
+
         return itemCount
     }
 
     function sumOrder() {
         let total = orderItems.reduce((a, b) => a + (b.total || 0), 0)
+
         return total.toFixed(2)
     }
 
@@ -96,7 +109,8 @@ const MyProfile = ({ route, navigation }) => {
                         flex: 1,
                         alignItems: 'center',
                         justifyContent: 'center'
-                    }}>
+                    }}
+                >
                     <View
                         style={{
                             height: 50,
@@ -105,68 +119,153 @@ const MyProfile = ({ route, navigation }) => {
                             paddingHorizontal: SIZES.padding * 3,
                             borderRadius: SIZES.radius,
                             backgroundColor: COLORS.lightGray3
-                        }}>
-                        <Text style={{ ...FONTS.h3 }}>My Profile</Text>
+                        }}
+                    >
+                        <Text style={{ ...FONTS.h3 }}>{route.params.item.title}</Text>
                     </View>
                 </View>
+
                 <TouchableOpacity
                     style={{
                         width: 50,
                         paddingRight: SIZES.padding * 2,
                         justifyContent: 'center'
-                    }}>
+                    }}
+                >
                     <Image
                         source={icons.list}
                         resizeMode="contain"
                         style={{
                             width: 30,
                             height: 30
-                        }}/>
+                        }}
+                    />
                 </TouchableOpacity>
             </View>
         )
     }
 
-    function renderUserInfos() {
+    function renderFoodInfo() {
         return (
-            <View style = {styles.containerUserInfo}>
-                    <Image
-                        style = {styles.userPhoto}
-                        source = {images.profilePhotoPng}
-                    />
-                <View style = {styles.buttons}>
-                    <View
-                        style = {styles.button}
-                    >
-                        <Text style = {{textAlign:'center'}}>NAME SURNAME</Text>
-                        {/* <Text>{route.params.userInfos.fullName}</Text> */}
-                    </View>
-                    <View
-                        style = {styles.button}
-                    >
-                        <Text style = {{textAlign:'center'}}>EMAIL</Text>
-                        {/* <Text>{route.params.userInfos.email}</Text> */}
-                    </View>
-                    <View
-                        style = {styles.button}
-                    >
-                        <Text style = {{textAlign:'center'}}>PHONE NUMBER</Text>
-                        {/* <Text>{route.params.userInfos.phone}</Text> */}
-                    </View>
-                    <View
-                        style = {styles.button}
-                    >
-                        <Text style = {{textAlign:'center'}}>GENDER</Text>
-                        {/* <Text>{route.params.userInfos.gender}</Text> */}
-                    </View>
-                    <View
-                        style = {styles.button}
-                    >
-                        <Text style = {{textAlign:'center'}}>NAME SURNAME</Text>
-                        {/* <Text>{route.params.userInfos.fullName}</Text> */}
-                    </View>
-                </View>
-            </View>
+            <Animated.ScrollView
+                horizontal
+                pagingEnabled
+                scrollEventThrottle={16}
+                snapToAlignment="center"
+                showsHorizontalScrollIndicator={false}
+                onScroll={Animated.event([
+                    { nativeEvent: { contentOffset: { x: scrollX } } }
+                ], { useNativeDriver: false })}
+            >
+                {
+                    route.params.item.menu.map((item, index) => (
+                        <View
+                            key={`menu-${index}`}
+                            style={{ alignItems: 'center' }}
+                        >
+                            <View style={{ height: SIZES.height * 0.35 }}>
+                                {/* Food Image */}
+                                <Image
+                                    source={{uri: item.photoLink}}
+                                    resizeMode="cover"
+                                    style={{
+                                        width: SIZES.width,
+                                        height: "100%"
+                                    }}
+                                />
+
+                                {/* Quantity */}
+                                <View
+                                    style={{
+                                        position: 'absolute',
+                                        bottom: - 20,
+                                        width: SIZES.width,
+                                        height: 50,
+                                        justifyContent: 'center',
+                                        flexDirection: 'row'
+                                    }}
+                                >
+                                    <TouchableOpacity
+                                        style={{
+                                            width: 50,
+                                            backgroundColor: COLORS.white,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderTopLeftRadius: 25,
+                                            borderBottomLeftRadius: 25
+                                        }}
+                                        onPress={() => editOrder("-", item.id, item.unitPrice)}
+                                    >
+                                        <Text style={{ ...FONTS.body1 }}>-</Text>
+                                    </TouchableOpacity>
+
+                                    <View
+                                        style={{
+                                            width: 50,
+                                            backgroundColor: COLORS.white,
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}
+                                    >
+                                        <Text style={{ ...FONTS.h2 }}>{getOrderQty(item.id)}</Text>
+                                    </View>
+
+                                    <TouchableOpacity
+                                        style={{
+                                            width: 50,
+                                            backgroundColor: COLORS.white,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderTopRightRadius: 25,
+                                            borderBottomRightRadius: 25
+                                        }}
+                                        onPress={() => editOrder("+", item.id, item.unitPrice)}
+                                    >
+                                        <Text style={{ ...FONTS.body1 }}>+</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                            {/* Name & Description */}
+                            <View
+                                style={{
+                                    width: SIZES.width,
+                                    alignItems: 'center',
+                                    marginTop: 15,
+                                    paddingHorizontal: SIZES.padding * 2
+                                }}
+                            >
+                                <Text style={{ marginVertical: 10, textAlign: 'center', ...FONTS.h2 }}>{item.title} - {item.unitPrice.toFixed(2)}</Text>
+                                <Text style={{ ...FONTS.body3 }}>{item.description}</Text>
+                                <Text style={{ ...FONTS.body3 }}>{item.rating} ⭐</Text>
+                                
+                            </View>
+
+                            {/* Calories */}
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    marginTop: 10
+                                }}
+                            >
+                                <Image
+                                    source={icons.fire}
+                                    style={{
+                                        width: 20,
+                                        height: 20,
+                                        marginRight: 10
+                                    }}
+                                />
+
+                                <Text style={{
+                                    ...FONTS.body3, color: COLORS.darygray
+                                }}>{item.calories.toFixed(2)} cal</Text>
+                                
+                            </View>
+                        </View>
+                    ))
+                }
+            </Animated.ScrollView>
         )
     }
 
@@ -222,6 +321,7 @@ const MyProfile = ({ route, navigation }) => {
             </View>
         )
     }
+
     function renderOrder() {
         return (
             <View>
@@ -300,10 +400,9 @@ const MyProfile = ({ route, navigation }) => {
                                 alignItems: 'center',
                                 borderRadius: SIZES.radius
                             }}
-                            onPress={() => navigation.navigate("Cart", {
+                            onPress={() => navigation.navigate("OrderDelivery", {
                                 restaurant: restaurant,
-                                currentLocation: currentLocation,
-                                orderItems: orderItems
+                                currentLocation: currentLocation
                             })}
                         >
                             <Text style={{ color: COLORS.white, ...FONTS.h2 }}>Order</Text>
@@ -327,46 +426,21 @@ const MyProfile = ({ route, navigation }) => {
             </View>
         )
     }
+
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
-            {renderUserInfos()}
-            {/* {renderOrder()} */}
+            {renderFoodInfo()}
+            {renderOrder()}
         </SafeAreaView>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.lightGray2
-    },
-    containerUserInfo:{
-        width: PhoneWidth * 1,
-        height: PhoneHeight * 0.8,
-        borderWidth: 2,
-        alignItems: 'center'
-    },
-    userPhoto:{
-        position:'absolute',
-        borderRadius:400,
-        borderWidth:8,
-        borderColor:'orange',
-        top:10,
-        width: PhoneWidth * 0.3,
-        height: PhoneHeight * 0.15,
-    },
-    buttons:{
-        top:PhoneHeight * 0.2,
-        width: PhoneWidth * 1,
-        height: PhoneHeight * 0.6,
-        borderWidth:1
-    },
-    button:{
-        width: PhoneWidth * 1,
-        height: PhoneHeight * 0.1,
-        borderWidth:1,
-        borderColor: 'red'
     }
 })
 
-export default MyProfile;
+export default Restaurant;

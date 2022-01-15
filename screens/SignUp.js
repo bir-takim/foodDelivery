@@ -13,11 +13,13 @@ import { connect } from 'react-redux';
 import { icons, COLORS, SIZES, FONTS, images } from '../constants';
 import { signInClicked, passwordChange, phoneChange, fullNameChange, emailChange, signUpClicked } from '../actions/authAction';
 
-const SignUp = ({ route, navigation, phoneValue, passwordValue, fullNameValue, emailValue,  phoneChange, passwordChange, signInClicked, signUpClicked, isMainLogin, userData}) => {
+const SignUp = ({ route, navigation, phoneValue, passwordValue, fullNameValue, emailValue,  phoneChange, passwordChange, fullNameChange, signUpClicked,emailChange,  isMainLogin, userData}) => {
 
 function onSignUp(){
     signUpClicked(fullNameValue, phoneValue, emailValue, passwordValue)
-
+        navigation.navigate('SignIn',{
+            userData
+        })
 }
     function renderHeader() {
         return (
@@ -95,6 +97,7 @@ function onSignUp(){
                     style = {styles.inputs}
                 />
                 <TextInput
+                    maxLength={10}
                     onChangeText={(value) => phoneChange(value)}
                     keyboardType="numeric"
                     placeholderTextColor={COLORS.primary}

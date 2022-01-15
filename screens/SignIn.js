@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { icons, COLORS, SIZES, FONTS, images } from '../constants';
 import { signInClicked, passwordChange, phoneChange } from '../actions/authAction';
+import { PhoneHeight, PhoneWidth } from '../constants/config';
 
 const SignIn = ({ route, navigation, phoneValue, passwordValue, phoneChange, passwordChange, signInClicked, isMainLogin, userData}) => {
 
@@ -23,7 +24,9 @@ function onSignIn(){
             userData
         })
     }
-
+    else{
+       alert("Yanlış şifre ya da telefon")
+    }
 }
     function renderHeader() {
         return (
@@ -116,6 +119,15 @@ function onSignIn(){
                         Sign In
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style = {styles.forget}
+                    onPress={navigation.navigate('SignUp')}
+                    
+                >
+                    <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
+                        Sign up for free!
+                    </Text>
+                </TouchableOpacity>
 
 
             </View>
@@ -167,6 +179,11 @@ const styles = StyleSheet.create({
         width:'50%',
         height:'7%',
         borderRadius:20
+    },
+    forget:{
+        marginTop: PhoneHeight*0.1,
+        width: PhoneWidth * 0.5,
+        alignSelf:'flex-end'
     }
 })
 

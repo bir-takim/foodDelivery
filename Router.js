@@ -11,6 +11,7 @@ import SearchPage from './screens/SearchPage';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import MyProfile from './screens/MyProfile';
+import Restaurant from './screens/Restaurant';
 
 class RouterComp extends Component {
     render() {
@@ -26,10 +27,10 @@ class RouterComp extends Component {
                     <Stack.Screen name="Home" component={Home} />
                     <Stack.Screen name="MyProfile" component={MyProfile}/>
                     <Stack.Screen name="OrderDelivery" component={OrderDelivery}/>
+                    <Stack.Screen name="Restaurant" component={Restaurant}/>
                 </Stack.Navigator>
             </NavigationContainer>  
         )
     }
 }
-
 export default RouterComp;

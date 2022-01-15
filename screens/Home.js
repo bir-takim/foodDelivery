@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import { isURLSearchParams } from 'react-native-axios/lib/utils';
 import { connect } from 'react-redux';
-import { fetchCategories } from '../actions/mainAction';
+import { fetchCategories, fetchRestaurants,fetchSpecificRestaurants } from '../actions/mainAction';
 
 import { icons, images, SIZES, COLORS } from '../constants'
 import { PhoneHeight } from '../constants/config';
 
-const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
-    console.log("proppsssss", route.params.userInfos.fullName);
+const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, restaurantsValue, fetchSpecificRestaurants, route }) => {
+    // console.log("proppsssss", route.params.userInfos.fullName);
     // Dummy Datas
     const initialCurrentLocation = {
         streetName: "Sarıçam",
@@ -286,12 +286,17 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
     useEffect(() => {
         fetchCategories()
+        fetchRestaurants()
       }, []);
       
     function onSelectedFavourite(isFavorite){
-
         setFavourites(isFavorite)
-       
+    }
+    function onSelectCategory(catId){
+        console.log("selected CAtegiryyy",selectedCategory);
+        fetchSpecificRestaurants(catId)
+        setSelectedCategory(catId)
+        
     }
 
     function renderHeader() {
@@ -355,7 +360,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
 
     function renderMainCategories() {
         const renderItem = ({ item }) => {
-            console.log("yeni item",item);
+            console.log("yeni item",item.id);
             return (
                 <TouchableOpacity
                     style={{
@@ -368,7 +373,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                         marginRight: SIZES.padding,
                         ...styles.shadow
                     }}
-                    onPress={() => onSelectCategory(item)}
+                    onPress={() => onSelectCategory(item.id)}
                 >
                     <View
                         style={{
@@ -380,7 +385,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                             backgroundColor: (selectedCategory?.id == item.id) ? COLORS.white : COLORS.lightGray
                         }}>
                         <Image
-                            source={item.Image}
+                            source={{uri:item.photoLink}}
                             resizeMode="contain"
                             style={{
                                 width: 30,
@@ -418,7 +423,9 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
     }
 
     function renderRestaurantList() {
-        const renderItem = ({ item }) => (
+        const renderItem = ({ item }) => {
+            console.log("iteemmmmmmmmmm", item);
+            return(
             <TouchableOpacity
                 style={{ marginBottom: SIZES.padding * 2 }}
                 onPress={() => navigation.navigate("Restaurant", {
@@ -460,7 +467,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                     />
                     </TouchableOpacity>
                     <Image
-                        source={item.photo}
+                        source={{uri:item.photoLink}}
                         resizeMode="cover"
                         style={{
                             width: "100%",
@@ -483,12 +490,12 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                             ...styles.shadow
                         }}
                     >
-                        <Text style={{  }}>{item.duration}</Text>
+                        <Text style={{  }}>{item.deliveryTime} min</Text>
                     </View>
                 </View>
 
                 {/* Restaurant Info */}
-                <Text style={{  }}>{item.name}</Text>
+                <Text style={{  }}>{item.title}</Text>
 
                 <View
                     style={{
@@ -515,25 +522,19 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                             marginLeft: 10
                         }}
                     >
-                        {
-                            item.categories.map((categoryId) => {
-                                return (
                                     <View
                                         style={{ flexDirection: 'row' }}
-                                        key={categoryId}
+                                        key={item.id}
                                     >
                                         <Text style={{  }}>{categoriesValue.title}</Text>
                                         <Text style={{ color: COLORS.darkgray }}> . </Text>
                                     </View>
-                                )
-                            })
-                        }
 
                         {/* Price */}
                         {
                             [1, 2, 3].map((priceRating) => (
                                 <Text
-                                    key={priceRating}
+                                    key={item.id}
                                     style={{
                                         color: (priceRating <= item.priceRating) ? COLORS.black : COLORS.darkgray
                                     }}
@@ -543,11 +544,12 @@ const Home = ({ navigation, categoriesValue, fetchCategories, route }) => {
                     </View>
                 </View>
             </TouchableOpacity>
-        )
+            )
+        }
 
         return (
             <FlatList
-                data={restaurants}
+                data={restaurantsValue}
                 keyExtractor={item => `${item.id}`}
                 renderItem={renderItem}
                 contentContainerStyle={{
@@ -585,14 +587,17 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    const { categoriesValue } = state.mainReducer;
+    const { categoriesValue, restaurantsValue } = state.mainReducer;
     return {
-        categoriesValue
+        categoriesValue,
+        restaurantsValue
     }
   }
   export default connect(
     mapStateToProps,
     {
-     fetchCategories
+     fetchCategories,
+     fetchRestaurants,
+     fetchSpecificRestaurants
     }
   )(Home)
