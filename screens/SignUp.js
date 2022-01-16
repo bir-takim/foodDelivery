@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { connect } from 'react-redux';
 import { icons, COLORS, SIZES, FONTS, images } from '../constants';
+import { PhoneHeight, PhoneWidth } from '../constants/config';
+
 import { signInClicked, passwordChange, phoneChange, fullNameChange, emailChange, signUpClicked } from '../actions/authAction';
 
 const SignUp = ({ route, navigation, phoneValue, passwordValue, fullNameValue, emailValue,  phoneChange, passwordChange, fullNameChange, signUpClicked,emailChange,  isMainLogin, userData}) => {
@@ -125,6 +127,14 @@ function onSignUp(){
                         Sign Up
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style = {styles.forget}
+                    onPress={navigation.navigate('SignIn')}
+                >
+                    <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
+                        Already an account?
+                    </Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -173,6 +183,11 @@ const styles = StyleSheet.create({
         width:'50%',
         height:'7%',
         borderRadius:20
+    },
+    forget:{
+        marginTop: PhoneHeight*0.1,
+        width: PhoneWidth * 0.5,
+        alignSelf:'flex-end'
     }
 })
 

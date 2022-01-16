@@ -15,7 +15,6 @@ import { signInClicked, passwordChange, phoneChange } from '../actions/authActio
 import { PhoneHeight, PhoneWidth } from '../constants/config';
 
 const SignIn = ({ route, navigation, phoneValue, passwordValue, phoneChange, passwordChange, signInClicked, isMainLogin, userData}) => {
-
 function onSignIn(){
     signInClicked(phoneValue, passwordValue)
     console.log("ismain login ", isMainLogin);
@@ -112,7 +111,7 @@ function onSignIn(){
                     style = {styles.inputs}
                 />
                 <TouchableOpacity
-                     onPress={() => onSignIn()}
+                    onPress={() => onSignIn()}
                     style = {styles.loginBtn}
                 >
                     <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
@@ -122,7 +121,6 @@ function onSignIn(){
                 <TouchableOpacity
                     style = {styles.forget}
                     onPress={navigation.navigate('SignUp')}
-                    
                 >
                     <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
                         Sign up for free!

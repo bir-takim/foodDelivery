@@ -29,7 +29,10 @@ const OrderDelivery = ({ route, navigation }) => {
         let { restaurant, currentLocation } = route.params;
 
         let fromLoc = currentLocation.gps
-        let toLoc = currentLocation.gps
+        let toLoc = {
+                    latitude:37.054008,
+                    longitude:35.392059
+                    }
         let street = currentLocation.streetName
 
         let mapRegion = {
@@ -278,7 +281,7 @@ const OrderDelivery = ({ route, navigation }) => {
                             </View>
 
                             {/* Restaurant */}
-                            <Text style={{ color: COLORS.darkgray, ...FONTS.body4 }}>{restaurant?.name}</Text>
+                            <Text style={{ color: COLORS.darkgray, ...FONTS.body4 }}>{restaurant?.title}</Text>
                         </View>
                     </View>
 
@@ -300,9 +303,9 @@ const OrderDelivery = ({ route, navigation }) => {
                                 justifyContent: 'center',
                                 borderRadius: 10
                             }}
-                            onPress={() => navigation.navigate("Home")}
+                            onPress={() => navigation.navigate("Payment")}
                         >
-                            <Text style={{ ...FONTS.h4, color: COLORS.white }}>Call</Text>
+                            <Text style={{ ...FONTS.h4, color: COLORS.white }}>Order Now!</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity

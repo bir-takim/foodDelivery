@@ -15,8 +15,7 @@ const INITIAL_STATE = {
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    // whitelist: [ 'userToken']
-    // whitelist: ['isAuthLogin', 'isMainLogin', 'userData'],
+    whitelist: ['isAuthLogin', 'isMainLogin', 'userData'],
     // blacklist: ["authButtonSpinner", "authSpinnerStatus"] // only navigation will be persisted
 };
 const mainReducer = (state = INITIAL_STATE, action) => {
@@ -27,6 +26,7 @@ const mainReducer = (state = INITIAL_STATE, action) => {
                 categoriesValue: action.payload.data
             }
         case FETCH_RESTAURANTS:
+            console.log("sşdfgaksdifşasdfilsdiflş");
             return {
                 ...state,
                 restaurantsValue: action.payload.data

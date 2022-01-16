@@ -9,11 +9,13 @@ import {
     Animated
 } from "react-native";
 import { isIphoneX } from 'react-native-iphone-x-helper'
+import { LOG_OUT_CLICK } from '../actions/authAction';
 
 import { icons, COLORS, SIZES, FONTS, images } from '../constants'
 import { PhoneHeight, PhoneWidth } from '../constants/config';
 
 const MyProfile = ({ route, navigation }) => {
+    console.log("user infooo ", route);
     // console.log("deneme", route.params.userInfos);
     const scrollX = new Animated.Value(0);
     const [restaurant, setRestaurant] = React.useState(null);
@@ -139,31 +141,31 @@ const MyProfile = ({ route, navigation }) => {
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>NAME SURNAME</Text>
-                        {/* <Text>{route.params.userInfos.fullName}</Text> */}
+                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.fullName}</Text>
                     </View>
                     <View
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>EMAIL</Text>
-                        {/* <Text>{route.params.userInfos.email}</Text> */}
+                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.email}</Text>
                     </View>
                     <View
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>PHONE NUMBER</Text>
-                        {/* <Text>{route.params.userInfos.phone}</Text> */}
+                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.phone}</Text>
                     </View>
                     <View
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>GENDER</Text>
-                        {/* <Text>{route.params.userInfos.gender}</Text> */}
+                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.gender}</Text>
                     </View>
                     <View
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>NAME SURNAME</Text>
-                        {/* <Text>{route.params.userInfos.fullName}</Text> */}
+                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.fullName}</Text>
                     </View>
                 </View>
             </View>

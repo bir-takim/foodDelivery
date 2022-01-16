@@ -62,7 +62,7 @@ export const signInClicked = (phone, password) => {
             },
              data: data
          }).then((result) => {
-             console.log("resulltttt",result);
+             console.log("resulltttt");
              if(result.status == 200){
                 dispatch({
                     type: SIGN_IN_SUCCESS,

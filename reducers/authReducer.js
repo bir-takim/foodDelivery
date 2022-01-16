@@ -30,7 +30,7 @@ const INITIAL_STATE = {
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    // whitelist: ['userData','isMainLogin','isAuthLogin'],
+    whitelist: ['userData','isMainLogin','isAuthLogin'],
     blacklist: ['authButtonSpinner', 'authSpinnerStatus'] // only navigation will be persisted
 };
 const authReducer = (state = INITIAL_STATE, action) => {
