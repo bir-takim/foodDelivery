@@ -22,7 +22,7 @@ const INITIAL_STATE = {
     idValue: "",
     userData:"",
     isAuthLogin: false,
-    isMainLogin: false,
+    isMainLogin: null,
     authSpinnerStatus: false,
     authButtonSpinner: false,
     logInErrorValue:"",
@@ -30,7 +30,7 @@ const INITIAL_STATE = {
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['userData','isMainLogin','isAuthLogin'],
+    // whitelist: ['userData','isMainLogin','isAuthLogin'],
     blacklist: ['authButtonSpinner', 'authSpinnerStatus'] // only navigation will be persisted
 };
 const authReducer = (state = INITIAL_STATE, action) => {
@@ -58,12 +58,12 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case SIGN_IN_CLICK:
             return{
                 ...state,
-                authSpinnerStatus: true
             }
         case SIGN_IN_SUCCESS:
+            console.log("loggg", action.payload.data);
             return {
                 ...state,
-                userData: action.payload.data.data,
+                userData: action.payload.data,
                 isMainLogin: true
             }
         case SIGN_IN_FAILED:

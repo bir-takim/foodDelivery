@@ -22,7 +22,6 @@ const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({accessibilityState, children, onPress}) => {
     var isSelected = accessibilityState.selected
-
     if(isSelected) {
         return(
             <View style={{flex:1, alignItems:'center'}}>
@@ -100,7 +99,7 @@ const CustomTabBar = (props) =>{
 
 const Tabs = ({route}) => {
     // console.log("route", route.params.userData);
-    const userInfos = route.params.userData
+    // const userInfos = route.params.userData
     return (
         <Tab.Navigator
             screenOptions={{headerShown: false}}
@@ -164,7 +163,7 @@ const Tabs = ({route}) => {
              <Tab.Screen 
                 name="User"
                 component={MyProfile}
-                initialParams={{userInfos: userInfos}}
+                // initialParams={{userInfos: userInfos}}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="account" color={'orange'} size={35} />

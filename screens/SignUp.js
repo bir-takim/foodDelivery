@@ -15,14 +15,21 @@ import { PhoneHeight, PhoneWidth } from '../constants/config';
 
 import { signInClicked, passwordChange, phoneChange, fullNameChange, emailChange, signUpClicked } from '../actions/authAction';
 
-const SignUp = ({ route, navigation, phoneValue, passwordValue, fullNameValue, emailValue,  phoneChange, passwordChange, fullNameChange, signUpClicked,emailChange,  isMainLogin, userData}) => {
+const SignUp = ({ route, navigation, phoneValue, passwordValue, fullNameValue, emailValue,  phoneChange, passwordChange, fullNameChange, signUpClicked,emailChange,  isMainLogin, isAuthLogin, userData}) => {
 
 function onSignUp(){
+    console.log("isauth login ", isAuthLogin);
     signUpClicked(fullNameValue, phoneValue, emailValue, passwordValue)
+    if(isAuthLogin == true){
         navigation.navigate('SignIn',{
             userData
         })
 }
+else{
+    alert("hatalı kayıt işlemi ")
+}
+    }
+        
     function renderHeader() {
         return (
             <View style={{ flexDirection: 'row' }}>
@@ -192,13 +199,14 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-    const { phoneValue, passwordValue, fullNameValue, emailValue, isMainLogin, authSpinnerStatus, userData} = state.authReducer;
+    const { phoneValue, passwordValue, fullNameValue, emailValue, isMainLogin, isAuthLogin, authSpinnerStatus, userData} = state.authReducer;
     return {
         phoneValue,
         passwordValue,
         fullNameValue,
         emailValue,
         isMainLogin,
+        isAuthLogin,
         authSpinnerStatus,
         userData
     }

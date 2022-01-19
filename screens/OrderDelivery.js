@@ -30,9 +30,9 @@ const OrderDelivery = ({ route, navigation }) => {
 
         let fromLoc = currentLocation.gps
         let toLoc = {
-                    latitude:37.054008,
-                    longitude:35.392059
-                    }
+             latitude:37.056898,
+             longitude:35.387550
+        }
         let street = currentLocation.streetName
 
         let mapRegion = {
@@ -88,7 +88,7 @@ const OrderDelivery = ({ route, navigation }) => {
     function renderMap() {
         const destinationMarker = () => (
             <Marker
-                coordinate={toLocation}
+                coordinate={fromLocation}
             >
                 <View
                     style={{
@@ -125,7 +125,7 @@ const OrderDelivery = ({ route, navigation }) => {
 
         const carIcon = () => (
             <Marker
-                coordinate={fromLocation}
+                coordinate={toLocation}
                 anchor={{ x: 0.5, y: 0.5 }}
                 flat={true}
                 rotation={angle}

@@ -45,7 +45,7 @@ export const fetchRestaurants = () => {
     }
 }
 export const fetchSpecificRestaurants = (catId) => {
-    console.log("action calıstı");
+    console.log("action calıstı", catId);
     return dispatch => {
         axios({
             url: `${BASE_API}/restaurant/category-restaurants/${catId}`,
@@ -55,6 +55,7 @@ export const fetchSpecificRestaurants = (catId) => {
                 'Accept': 'application/json'
             }
         }).then((result) => {
+            console.log("result geldi yavrum", result);
             dispatch({
                 type: FETCH_SPECIFIC_RESTAURANTS,
                 payload: result.data

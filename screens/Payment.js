@@ -20,9 +20,9 @@ for (let j = 20; j <= 40; j++) {
 }
  class Payment extends Component {
         state = {
-            selectedMonthValue: "Ay",
+            selectedMonthValue: "Month",
             modalVisible: false,
-            selectedYearValue: "Yıl",
+            selectedYearValue: "Year",
             modalTitle: "",
             cardHolderName: "",
             cardNumberValue: "",
@@ -39,7 +39,7 @@ for (let j = 20; j <= 40; j++) {
     pickMonth = () => {
         const { selectedMonthValue } = this.state;
 
-        if(selectedMonthValue != "Ay") {
+        if(selectedMonthValue != "Month") {
             this.setState({ selectedMonthValue: selectedMonthValue, modalVisible: false })
         } else {
             this.setState({ selectedMonthValue: months[0].value, modalVisible: false })
@@ -49,7 +49,7 @@ for (let j = 20; j <= 40; j++) {
     pickYear = () => {
         const { selectedYearValue } = this.state;
 
-        if(selectedYearValue != "Yıl") {
+        if(selectedYearValue != "Year") {
             this.setState({ selectedYearValue: selectedYearValue, modalVisible: false })
         } else {
             this.setState({ selectedYearValue: years[0].value,  modalVisible: false })
@@ -64,23 +64,23 @@ for (let j = 20; j <= 40; j++) {
                 <ScrollView>
                     <View style={styles.creditCard}>
                         <View style={styles.creditCardContentTitleWrapper}>
-                            <Text style={styles.creditCardContentTitle}> Kart Bilgileri </Text>
+                            <Text style={styles.creditCardContentTitle}> Card Informations </Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-                                <Text style={styles.creditCardContentSubTitle}> Kredi Kartı </Text>
-                                {/* <Image
+                                <Text style={styles.creditCardContentSubTitle}> Credit Card</Text>
+                                <Image
                                     style={styles.creditCardIcon}
-                                    source={cardNumberValue.substring(0, 1) == "4" ? require('../../images/visa.png'):cardNumberValue.substring(0, 1) == "5" ?require('../../images/mastercard.png'):require('../../images/credit-card.png')} /> */}
+                                    source={cardNumberValue.substring(0, 1) == "4" ? require('../assets/images/visa.png'):cardNumberValue.substring(0, 1) == "5" ?require('../assets/images/mastercard.png'):require('../assets/images/credit-card.png')} />
                             </View>
                         </View>
                         <View style={styles.hr} />
                         <View style={styles.cardForm}>
-                            <Text> Kart Sahibi </Text>
+                            <Text> Card's Owner </Text>
                             <TextInput
                                 onChangeText={this.onCardHolderNameChanged}
                                 scrollEnabled={false}
                                 style={[styles.inputs, { width: "100%", marginBottom: 10 }]} />
 
-                            <Text> Kart No </Text>
+                            <Text> Card Number </Text>
                             <TextInput
                                 keyboardType={"numeric"}
                                 scrollEnabled={false}
@@ -89,12 +89,12 @@ for (let j = 20; j <= 40; j++) {
                                 style={[styles.inputs, { width: "100%" }]} />
 
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10}}>
-                                <Text> Son Kullanma Tarihi </Text>
+                                <Text> Expiration Date </Text>
                                 <Text style={{ marginRight: "10%" }}> CVC</Text>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity activeOpacity={0.5} onPress={() => this.setState({ modalTitle: "Ay", modalVisible: true })} style={styles.inputs}>
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => this.setState({ modalTitle: "Month", modalVisible: true })} style={styles.inputs}>
                                         <Text> {selectedMonthValue.length > 20 ? selectedMonthValue.substring(0, 20) + "...": selectedMonthValue} </Text>
                                         <View>
                                             {/* <Image
@@ -102,7 +102,7 @@ for (let j = 20; j <= 40; j++) {
                                                 source={require('../../images/new-year.png')} /> */}
                                         </View>
                                     </TouchableOpacity>
-                                    <TouchableOpacity activeOpacity={0.5} onPress={() => this.setState({ modalTitle: "Yıl", modalVisible: true })} style={[styles.inputs, { marginHorizontal: 10, width: PhoneWidth * 0.25 }]}>
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => this.setState({ modalTitle: "Year", modalVisible: true })} style={[styles.inputs, { marginHorizontal: 10, width: PhoneWidth * 0.25 }]}>
                                         <Text> {selectedMonthValue.length > 20 ? selectedMonthValue.substring(0, 20) + "...": selectedYearValue} </Text>
                                         <View>
                                             {/* <Image
@@ -130,9 +130,9 @@ for (let j = 20; j <= 40; j++) {
                                     } */}
                                 </TouchableOpacity>
                                 <TouchableOpacity  activeOpacity={0.5} onPress={() => this.setState({ userAgreementModalVisible: true })}>
-                                    <Text style={{ color: '#4CE0B3'}}> Mesafeli satış sözleşmesini </Text>
+                                    <Text style={{ color: '#4CE0B3'}}> Sales Contract </Text>
                                 </TouchableOpacity>
-                                <Text>onaylıyorum </Text>
+                                <Text>IS APPROVED </Text>
                             </View>
                         </View>
                     </View>
@@ -168,8 +168,8 @@ for (let j = 20; j <= 40; j++) {
                                 </TouchableOpacity>
                             </View>
                             <ScrollView>
-                                <Text style={{ fontSize: responsiveSize(18), fontWeight: "500", textAlign: 'center' }}> MESAFELİ SATIŞ SÖZLEŞMESİ</Text>
-                                <Text style={{  marginLeft: 10, textAlign: 'left', marginBottom: 20 }}>bu bir sözleşmedir. Bu uygulamayı Umut Zeynep ve Bünyamin geliştiriyor.</Text>
+                                <Text style={{ fontSize: responsiveSize(18), fontWeight: "500", textAlign: 'center' }}> SELLING CONTRACT</Text>
+                                <Text style={{  marginLeft: 10, textAlign: 'left', marginBottom: 20 }}></Text>
                             </ScrollView>
                         </View>
                         :
@@ -179,12 +179,12 @@ for (let j = 20; j <= 40; j++) {
                                     <Text style={envStyles.modalButtonTitle}> Vazgeç </Text>
                                 </TouchableOpacity>
                                 <Text style={{ fontSize: responsiveSize(14), }}> {modalTitle} </Text>
-                                <TouchableOpacity onPress={modalTitle == "Ay" ? this.pickMonth:this.pickYear}>
+                                <TouchableOpacity onPress={modalTitle == "Month" ? this.pickMonth:this.pickYear}>
                                     <Text style={envStyles.modalButtonTitle}> Seç </Text>
                                 </TouchableOpacity>
                             </View>
                             {
-                                modalTitle == "Ay" ?
+                                modalTitle == "Month" ?
                                 <Picker
                                     selectedValue={selectedMonthValue}
                                     style={{height: 50, width: PhoneWidth, alignSelf: 'center'}}

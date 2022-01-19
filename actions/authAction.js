@@ -55,18 +55,19 @@ export const signInClicked = (phone, password) => {
         })
         axios({
             method: "post",
-            url: `${BASE_API}/auth/sign-in`,
+            url: `${BASE_API}/users/sign-in`,
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
              data: data
          }).then((result) => {
-             console.log("resulltttt");
-             if(result.status == 200){
+             console.log("resulltttt",result.data.status);
+             if(result.data.status == "success"){
+                 console.log("girdi ", result.data.data);
                 dispatch({
                     type: SIGN_IN_SUCCESS,
-                    payload: { data: result.data}
+                    payload: { data: result.data.data}
                 })
              }
              else{
@@ -81,10 +82,11 @@ export const signInClicked = (phone, password) => {
                   );
                 dispatch({  //dispatch etme işlemi yapılıyor.
                     type: SIGN_IN_FAILED, 
-                    payload: { data: result.data}
+                    payload: { data: result.data.data}
                 })
              }
          }).catch((err) => {
+             console.log("err", err);
          })
     }
 }
@@ -110,6 +112,7 @@ export const signUpClicked = (fullName, phone, email, password) => {
                     payload: { data: result.data}
                 })
          }).catch((err) => {
+             console.log("err", err);
          })
     }
 }
