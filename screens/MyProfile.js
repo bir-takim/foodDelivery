@@ -147,25 +147,25 @@ const MyProfile = ({ route, navigation }) => {
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>EMAIL</Text>
-                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.email}</Text>
+                        {/* <Text style = {{textAlign:'center'}}>{route.params.userInfos.email}</Text> */}
                     </View>
                     <View
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>PHONE NUMBER</Text>
-                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.phone}</Text>
+                        {/* <Text style = {{textAlign:'center'}}>{route.params.userInfos.phone}</Text> */}
                     </View>
                     <View
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>GENDER</Text>
-                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.gender}</Text>
+                        {/* <Text style = {{textAlign:'center'}}>{route.params.userInfos.gender}</Text> */}
                     </View>
                     <View
                         style = {styles.button}
                     >
                         <Text style = {{textAlign:'center'}}>NAME SURNAME</Text>
-                        <Text style = {{textAlign:'center'}}>{route.params.userInfos.fullName}</Text>
+                        {/* <Text style = {{textAlign:'center'}}>{route.params.userInfos.fullName}</Text> */}
                     </View>
                 </View>
             </View>
@@ -359,12 +359,13 @@ const styles = StyleSheet.create({
     },
     buttons:{
         top:PhoneHeight * 0.2,
-        width: PhoneWidth * 1,
+        width: PhoneWidth * 0.7,
         height: PhoneHeight * 0.6,
         borderWidth:1
     },
     button:{
-        width: PhoneWidth * 1,
+        width: PhoneWidth * 0.7,
+        borderRadius:40,
         height: PhoneHeight * 0.1,
         borderWidth:1,
         borderColor: 'red'

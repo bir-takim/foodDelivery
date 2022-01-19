@@ -19,7 +19,7 @@ class RouterComp extends Component {
         const Stack  = createStackNavigator();
         return(
             <NavigationContainer>
-                <Stack.Navigator name = 'authStack' initialRouteName = 'Tabs' screenOptions={{headerShown: false}}>
+                <Stack.Navigator name = 'authStack' initialRouteName = 'SignIn' screenOptions={{headerShown: false}}>
                     <Stack.Screen name="Tabs" component={Tabs} />
                     <Stack.Screen name="SearchPage" component={SearchPage} />
                     <Stack.Screen name="Cart" component={Cart} />

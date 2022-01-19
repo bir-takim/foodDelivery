@@ -10,7 +10,7 @@ export const BIRTH_DATE_CHANGE = "birth_date_change";
 export const SIGN_IN_CLICK        = "sign_in_click";
 export const SIGN_UP_CLICK        = "sign_up_click";
 export const SIGN_IN_SUCCESS      = "sign_in_success";
-export const SIGN_UP_SUCCESS        = "sign_in_success";
+export const SIGN_UP_SUCCESS        = "sign_up_success";
 export const SIGN_IN_FAILED       = "sign_in_failed";
 export const LOG_OUT_SUCCESS     = "log_out_success";
 export const LOG_OUT_CLICK    = "log_out_click";
@@ -48,7 +48,6 @@ export const birthDateChange = (value) => {
 }
 export const signInClicked = (phone, password) => {
     let data = JSON.stringify({ phone: phone, password: password })
-    console.log("data", data);
     return dispatch => {
         dispatch({
             type: SIGN_IN_CLICK,
@@ -62,18 +61,16 @@ export const signInClicked = (phone, password) => {
             },
              data: data
          }).then((result) => {
-             console.log("resulltttt",result.data.status);
              if(result.data.status == "success"){
-                 console.log("girdi ", result.data.data);
                 dispatch({
                     type: SIGN_IN_SUCCESS,
-                    payload: { data: result.data.data}
+                    payload: { data: result.data}
                 })
              }
-             else{
+             else if(result.data.status == "error"){
                 Alert.alert(
                     "UYARI",
-                    "HATALI KOD VEYA ŞİFRE",
+                    "HATALI telefon VEYA ŞİFRE",
                     [
                      {
                         text: "TAMAM"
@@ -82,11 +79,10 @@ export const signInClicked = (phone, password) => {
                   );
                 dispatch({  //dispatch etme işlemi yapılıyor.
                     type: SIGN_IN_FAILED, 
-                    payload: { data: result.data.data}
+                    payload: { data: result.data}
                 })
              }
          }).catch((err) => {
-             console.log("err", err);
          })
     }
 }
@@ -106,11 +102,13 @@ export const signUpClicked = (fullName, phone, email, password) => {
             },
              data: data
          }).then((result) => {
-             console.log("resulltttt",result);
+             if(result.data.status == "success"){
+             console.log("resulltttt ifin içi ",result);
                 dispatch({
                     type: SIGN_UP_SUCCESS,
                     payload: { data: result.data}
                 })
+             }  
          }).catch((err) => {
              console.log("err", err);
          })

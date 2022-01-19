@@ -22,6 +22,7 @@ const Restaurant = ({ route, navigation }) => {
 
     React.useEffect(() => {
         let { item, currentLocation } = route.params;
+        console.log("item restoranttt", item);
 
         setRestaurant(item)
         setCurrentLocation(currentLocation)

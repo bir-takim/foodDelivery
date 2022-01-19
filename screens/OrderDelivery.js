@@ -30,8 +30,8 @@ const OrderDelivery = ({ route, navigation }) => {
 
         let fromLoc = currentLocation.gps
         let toLoc = {
-             latitude:37.056898,
-             longitude:35.387550
+             latitude:restaurant.location.latitude,
+             longitude:restaurant.location.longitude
         }
         let street = currentLocation.streetName
 

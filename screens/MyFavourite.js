@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, isValidElement } from 'react';
+
 import {
     SafeAreaView,
     View,
@@ -9,13 +10,20 @@ import {
     Animated,
     FlatList,
 } from "react-native";
+import { connect } from 'react-redux';
+import { fetchFavourites } from '../actions/mainAction';
+
 
 import { icons, images, SIZES, COLORS } from '../constants'
 import { PhoneWidth, PhoneHeight } from "../constants/config";
 
-const MyFavourite = ({route, navigation }) => {
+const MyFavourite = ({route, navigation, favouriteRestaurants, fetchFavourites }) => {
+    console.log("alllaahhhhh bbeee", favouriteRestaurants);
   const scrollX = new Animated.Value(0);
   const [restaurant, setRestaurant] = React.useState(null);
+  useEffect(() => {
+    fetchFavourites(route.params.userInfos.id)
+  }, []);
     // Dummy Datas
 
     const initialCurrentLocation = {
@@ -570,7 +578,7 @@ const MyFavourite = ({route, navigation }) => {
 
         return (
             <FlatList
-                data={restaurants}
+                data={favouriteRestaurants}
                 keyExtractor={item => `${item.id}`}
                 renderItem={renderItem}
                 contentContainerStyle={{
@@ -642,4 +650,15 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MyFavourite;
+const mapStateToProps = state => {
+    const {  favouriteRestaurants} = state.mainReducer;
+    return {
+        favouriteRestaurants
+    }
+  }
+  export default connect(
+    mapStateToProps,
+    {
+        fetchFavourites
+    }
+  )(MyFavourite)

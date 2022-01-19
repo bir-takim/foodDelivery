@@ -22,7 +22,7 @@ const INITIAL_STATE = {
     idValue: "",
     userData:"",
     isAuthLogin: false,
-    isMainLogin: null,
+    isMainLogin: false,
     authSpinnerStatus: false,
     authButtonSpinner: false,
     logInErrorValue:"",
@@ -30,7 +30,7 @@ const INITIAL_STATE = {
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    // whitelist: ['userData','isMainLogin','isAuthLogin'],
+    whitelist: ['userData','isMainLogin','isAuthLogin'],
     blacklist: ['authButtonSpinner', 'authSpinnerStatus'] // only navigation will be persisted
 };
 const authReducer = (state = INITIAL_STATE, action) => {
@@ -38,6 +38,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case PHONE_CHANGE:
             return{
                 ...state,
+                isMainLogin:false,
                 phoneValue: action.payload
             }
         case PASSWORD_CHANGE:
@@ -67,9 +68,9 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isMainLogin: true
             }
         case SIGN_IN_FAILED:
+            console.log("failllll");
             return {
                 ...state,
-                isMainLogin: false
             }
         case SIGN_UP_CLICK:
             return {
@@ -78,6 +79,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case SIGN_UP_SUCCESS:
             return {
                 ...state,
+                userData: action.payload.data,
             }
         case SIGN_UP_FAILED:
             return {

@@ -16,20 +16,27 @@ import { PhoneHeight, PhoneWidth } from '../constants/config';
 import { signInClicked, passwordChange, phoneChange, fullNameChange, emailChange, signUpClicked } from '../actions/authAction';
 
 const SignUp = ({ route, navigation, phoneValue, passwordValue, fullNameValue, emailValue,  phoneChange, passwordChange, fullNameChange, signUpClicked,emailChange,  isMainLogin, isAuthLogin, userData}) => {
-
+    // componentDidUpdate = () =>{
+    //     if(isMainLogin == true){
+    //         navigation.navigate('Tabs',{
+    //             userData
+    //         })
+    // }
+    // else{
+    //     alert("hatalı kayıt işlemi ")
+    // }
+    //   }
 function onSignUp(){
-    console.log("isauth login ", isAuthLogin);
     signUpClicked(fullNameValue, phoneValue, emailValue, passwordValue)
-    if(isAuthLogin == true){
-        navigation.navigate('SignIn',{
-            userData
-        })
-}
-else{
-    alert("hatalı kayıt işlemi ")
-}
+        if(isMainLogin == true){
+            navigation.navigate('Tabs',{
+                userData
+            })
     }
-        
+    else{
+        alert("hatalı kayıt işlemi ")
+    }
+      }
     function renderHeader() {
         return (
             <View style={{ flexDirection: 'row' }}>
@@ -136,7 +143,8 @@ else{
                 </TouchableOpacity>
                 <TouchableOpacity
                     style = {styles.forget}
-                    onPress={navigation.navigate('SignIn')}
+                    onPress={() => navigation.navigate("SignIn",{
+                    })}
                 >
                     <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
                         Already an account?

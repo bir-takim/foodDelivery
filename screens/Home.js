@@ -10,12 +10,12 @@ import {
 } from "react-native";
 import { isURLSearchParams } from 'react-native-axios/lib/utils';
 import { connect } from 'react-redux';
-import { fetchCategories, fetchRestaurants,fetchSpecificRestaurants } from '../actions/mainAction';
+import { fetchCategories, fetchRestaurants,fetchSpecificRestaurants,addFavourites } from '../actions/mainAction';
 
 import { icons, images, SIZES, COLORS } from '../constants'
 import { PhoneHeight } from '../constants/config';
 
-const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, restaurantsValue, selectedRestaurantsValue, fetchSpecificRestaurants, route }) => {
+const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, restaurantsValue, selectedRestaurantsValue, fetchSpecificRestaurants, route, addFavourites }) => {
     // console.log("proppsssss", route.params.userInfos.fullName);
     // Dummy Datas
     const initialCurrentLocation = {
@@ -282,25 +282,25 @@ const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, 
 
     const [selectedCategory, setSelectedCategory] = React.useState(null)
     // const [restaurants, setRestaurants] = React.useState(restaurantData)
-    const [isFavourite, setFavourites] = React.useState(false)
+    const [selectedFavourite, setSelectedFavourite] = React.useState(null)
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
     useEffect(() => {
         fetchCategories()
         fetchRestaurants()
       }, []);
       
-    function onSelectedFavourite(isFavorite){
-        setFavourites(isFavorite)
+    function onSelectedFavourite(isFavourite){
+        console.log("is favorsdklşgsdlşfkdsflşksdlşgfsd",isFavourite);
+        setSelectedFavourite(isFavourite)
+        addFavourites(route.params.userInfos.id, isFavourite)
     }
     function onSelectCategory(catId){
-        console.log("denemeeeeee", selectedCategory);
-        renderSpecifiedRestaurants()
-        fetchSpecificRestaurants(selectedCategory)
+        fetchSpecificRestaurants(catId)
         setSelectedCategory(catId)
-        
     }
 
     function renderHeader() {
+        console.log("route main");
         return (
             <View style={{ flexDirection: 'row', height: 50 }}>
                 <TouchableOpacity
@@ -422,10 +422,10 @@ const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, 
             </View>
         )
     }
-
-    function renderSpecifiedRestaurants(){
+    function renderRestaurantList() {
+       
         const renderItem = ({ item }) => {
-            console.log("iteemmmmmmmmmm", item);
+            console.log("iteemmmmmmmmmm for favorıııı",item);
             return(
             <TouchableOpacity
                 style={{ marginBottom: SIZES.padding * 2 }}
@@ -441,32 +441,32 @@ const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, 
                         // alignItems:'flex-end'
                     }}
                 >
-                    <TouchableOpacity
-                    onPress = {() => item.isFavorite == false? onSelectedFavourite(true) : onSelectedFavourite(false)}
-                    style={{
-                        height: 35,
-                        position:'absolute',
-                        right:0,
-                        marginRight:20,
-                        marginTop:20,
-                        zIndex:2,
-                        width: 35,
-                        tintColor: COLORS.primary,
-
-                    }}
-                    >
-                    <Image
-                        source={icons.like}
-                        style={{
-                            height: 35,
-                            // position:'absolute',
-                            right:0,
-                            zIndex:2,
-                            width: 35,
-                            tintColor: isFavourite == false ? 'black' : COLORS.primary
-                        }}
-                    />
-                    </TouchableOpacity>
+                   <TouchableOpacity
+            onPress = {() => onSelectedFavourite(item.id)}
+            style={{
+                height: 35,
+                position:'absolute',
+                right:0,
+                marginRight:20,
+                marginTop:20,
+                zIndex:2,
+                width: 35,
+                tintColor: COLORS.primary,
+    
+            }}
+            >
+            <Image
+                source={icons.like}
+                style={{
+                    height: 35,
+                    // position:'absolute',
+                    right:0,
+                    zIndex:2,
+                    width: 35,
+                    tintColor: (selectedFavourite == item.id) ? COLORS.primary : COLORS.white
+                }}
+            />
+            </TouchableOpacity>
                     <Image
                         source={{uri:item.photoLink}}
                         resizeMode="cover"
@@ -491,7 +491,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, 
                             ...styles.shadow
                         }}
                     >
-                        <Text style={{  }}>{item.deliveryTime} min</Text>
+                      <Text style={{  }}>{item.deliveryTime} min</Text>
                     </View>
                 </View>
 
@@ -550,145 +550,7 @@ const Home = ({ navigation, categoriesValue, fetchCategories, fetchRestaurants, 
 
         return (
             <FlatList
-                data={selectedRestaurantsValue}
-                keyExtractor={item => `${item.id}`}
-                renderItem={renderItem}
-                contentContainerStyle={{
-                    paddingHorizontal: SIZES.padding * 2,
-                    paddingBottom: 30
-                }}
-            />
-        )
-
-    }
-    function renderRestaurantList() {
-        const renderItem = ({ item }) => {
-            console.log("iteemmmmmmmmmm", item);
-            return(
-            <TouchableOpacity
-                style={{ marginBottom: SIZES.padding * 2 }}
-                onPress={() => navigation.navigate("Restaurant", {
-                    item,
-                    currentLocation
-                })}
-            >
-                {/* Image */}
-                <View
-                    style={{
-                        marginBottom: SIZES.padding,
-                        // alignItems:'flex-end'
-                    }}
-                >
-                    <TouchableOpacity
-                    onPress = {() => item.isFavorite == false? onSelectedFavourite(true) : onSelectedFavourite(false)}
-                    style={{
-                        height: 35,
-                        position:'absolute',
-                        right:0,
-                        marginRight:20,
-                        marginTop:20,
-                        zIndex:2,
-                        width: 35,
-                        tintColor: COLORS.primary,
-
-                    }}
-                    >
-                    <Image
-                        source={icons.like}
-                        style={{
-                            height: 35,
-                            // position:'absolute',
-                            right:0,
-                            zIndex:2,
-                            width: 35,
-                            tintColor: isFavourite == false ? 'black' : COLORS.primary
-                        }}
-                    />
-                    </TouchableOpacity>
-                    <Image
-                        source={{uri:item.Restaurant.photoLink}}
-                        resizeMode="cover"
-                        style={{
-                            width: "100%",
-                            height: 200,
-                            borderRadius: SIZES.radius
-                        }}
-                    />
-
-                    <View
-                        style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            height: 50,
-                            width: SIZES.width * 0.3,
-                            backgroundColor: COLORS.white,
-                            borderTopRightRadius: SIZES.radius,
-                            borderBottomLeftRadius: SIZES.radius,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            ...styles.shadow
-                        }}
-                    >
-                      <Text style={{  }}>{item.Restaurant.deliveryTime} min</Text>
-                    </View>
-                </View>
-
-                {/* Restaurant Info */}
-                <Text style={{  }}>{item.Restaurant.title}</Text>
-
-                <View
-                    style={{
-                        marginTop: SIZES.padding,
-                        flexDirection: 'row'
-                    }}
-                >
-                    {/* Rating */}
-                    <Image
-                        source={icons.star}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.primary,
-                            marginRight: 10
-                        }}
-                    />
-                    <Text style={{  }}>{item.Restaurant.rating}</Text>
-
-                    {/* Categories */}
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            marginLeft: 10
-                        }}
-                    >
-                                    <View
-                                        style={{ flexDirection: 'row' }}
-                                        key={item.id}
-                                    >
-                                        <Text style={{  }}>{categoriesValue.title}</Text>
-                                        <Text style={{ color: COLORS.darkgray }}> . </Text>
-                                    </View>
-
-                        {/* Price */}
-                        {
-                            [1, 2, 3].map((priceRating) => (
-                                <Text
-                                    key={item.id}
-                                    style={{
-                                        color: (priceRating <= item.Restaurant.priceRating) ? COLORS.black : COLORS.darkgray
-                                    }}
-                                >$</Text>
-                            ))
-                        }
-                    </View>
-                </View>
-            </TouchableOpacity>
-            )
-        }
-
-        return (
-            <FlatList
-                data={selectedRestaurantsValue}
+                data={selectedCategory == null? restaurantsValue : selectedRestaurantsValue}
                 keyExtractor={item => `${item.id}`}
                 renderItem={renderItem}
                 contentContainerStyle={{
@@ -726,11 +588,13 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    const { categoriesValue, restaurantsValue, selectedRestaurantsValue} = state.mainReducer;
+    const { categoriesValue, restaurantsValue, selectedRestaurantsValue, favouriteRestaurants} = state.mainReducer;
     return {
         categoriesValue,
         restaurantsValue,
-        selectedRestaurantsValue
+        selectedRestaurantsValue,
+        favouriteRestaurants
+
     }
   }
   export default connect(
@@ -738,6 +602,7 @@ const mapStateToProps = state => {
     {
      fetchCategories,
      fetchRestaurants,
-     fetchSpecificRestaurants
+     fetchSpecificRestaurants,
+     addFavourites
     }
   )(Home)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, isValidElement } from 'react';
+import React, { useState, useEffect, isValidElement, Component } from 'react';
 import {
     StyleSheet,
     SafeAreaView,
@@ -11,132 +11,69 @@ import {
 } from "react-native";
 import { connect } from 'react-redux';
 import { icons, COLORS, SIZES, FONTS, images } from '../constants';
-import { signInClicked, passwordChange, phoneChange } from '../actions/authAction';
 import { PhoneHeight, PhoneWidth } from '../constants/config';
 
-const SignIn = ({ route, navigation, phoneValue, passwordValue, phoneChange, passwordChange, signInClicked, isMainLogin, userData}) => {
-function onSignIn(){
-    signInClicked(phoneValue, passwordValue)
-    console.log("ismain login ", isMainLogin);
-    if(isMainLogin == true){
-        navigation.navigate('Tabs',{
-            userData
-        })
-    }
-    else{
-       alert("Yanlış şifre ya da telefon")
-    }
-}
-    function renderHeader() {
-        return (
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity
-                    style={{
-                        width: 50,
-                        paddingLeft: SIZES.padding * 2,
-                        justifyContent: 'center'
-                    }}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Image
-                        source={icons.back}
-                        resizeMode="contain"
-                        style={{
-                            width: 30,
-                            height: 30
-                        }}
-                    />
-                </TouchableOpacity>
+// import { REGISTER } from 'redux-persist/es/constants';
+// import { NavigationContainer } from '@react-navigation/native';
+import { signInClicked,phoneChange, passwordChange } from '../actions/authAction';
+class SignIn extends Component {
+    constructor(props) {
+        super(props);
+      }
 
-                {/* Restaurant Name Section */}
-                <View
-                    style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <View
-                        style={{
-                            height: 50,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            paddingHorizontal: SIZES.padding * 3,
-                            borderRadius: SIZES.radius,
-                            backgroundColor: COLORS.lightGray3
-                        }}
-                    >
-                        {/* <Text style={{ ...FONTS.h3 }}>{restaurant?.name}</Text> */}
-                    </View>
-                </View>
-
-                <TouchableOpacity
-                    style={{
-                        width: 50,
-                        paddingRight: SIZES.padding * 2,
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Image
-                        source={icons.list}
-                        resizeMode="contain"
-                        style={{
-                            width: 30,
-                            height: 30
-                        }}
-                    />
-                </TouchableOpacity>
-            </View>
-        )
+  onSignIn = () => {this.props.signInClicked(this.props.phoneValue, this.props.passwordValue)}
+  onPhoneChange = (value) => this.props.phoneChange(value)
+  onPasswordChange = (value) => this.props.passwordChange(value)
+  componentDidUpdate = () =>{
+    if(this.props.isMainLogin == true){
+      this.props.navigation.navigate('Tabs',this.props.userData)
     }
-    function renderInputs(){
-        return(
-            <View style = {{flex: 1 , alignItems:'center', justifyContent:'center'}}>
-                <Image
-                    style = {{width:'30%', height:'15%', marginBottom: '20%', resizeMode:'contain'}}
-                    source = {images.loginPng}
-                />
-                <TextInput
-                    onChangeText={(value) => phoneChange(value)}
-                    keyboardType="numeric"
-                    placeholderTextColor={COLORS.primary}
-                    placeholder="Phone"
-                    style = {styles.inputs}
-                />
-                <TextInput
-                    secureTextEntry
-                    onChangeText={(value) => passwordChange(value)}
-                    placeholderTextColor={COLORS.primary}
-                    placeholder="Password"
-                    style = {styles.inputs}
-                />
-                <TouchableOpacity
-                    onPress={() => onSignIn()}
-                    style = {styles.loginBtn}
-                >
-                    <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
-                        Sign In
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style = {styles.forget}
-                    onPress={navigation.navigate('SignUp')}
-                >
-                    <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
-                        Sign up for free!
-                    </Text>
-                </TouchableOpacity>
+  }
 
-
-            </View>
-        )
-    }
-    return (
-        <SafeAreaView style={styles.container}>
-            {/* {renderHeader()} */}
-            {renderInputs()}
-        </SafeAreaView>
+render() {
+    console.log("ismainlogin", this.props.userData);
+  const {  authSpinnerStatus } = this.props;
+    return(
+        <SafeAreaView style = {styles.container}>
+        <View style = {{flex: 1 , alignItems:'center', justifyContent:'center'}}>
+        <Image
+            style = {{width:'30%', height:'15%', marginBottom: '20%', resizeMode:'contain'}}
+            source = {images.loginPng}
+        />
+        <TextInput
+            onChangeText={(value) => this.onPhoneChange(value)}
+            keyboardType="numeric"
+            placeholderTextColor={COLORS.primary}
+            placeholder="Phone"
+            style = {styles.inputs}
+        />
+        <TextInput
+            secureTextEntry
+            onChangeText={(value) => this.onPasswordChange(value)}
+            placeholderTextColor={COLORS.primary}
+            placeholder="Password"
+            style = {styles.inputs}
+        />
+        <TouchableOpacity
+            onPress={() => this.onSignIn()}
+            style = {styles.loginBtn}
+        >
+            <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
+                Sign In
+            </Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity
+            style = {styles.forget}
+            onPress={this.props.navigation.navigate('SignUp')}
+        >
+            <Text style = {{ color: COLORS.primary, fontWeight: 'bold', fontSize: 15}}>
+                Sign up for free!
+            </Text>
+        </TouchableOpacity> */}
+    </View>
+    </SafeAreaView>
     )
+}
 }
 const styles = StyleSheet.create({
     container: {
@@ -184,9 +121,8 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end'
     }
 })
-
 const mapStateToProps = (state) => {
-    const { phoneValue, passwordValue,isMainLogin, authSpinnerStatus, userData} = state.authReducer;
+    const { phoneValue, passwordValue, isMainLogin, authSpinnerStatus, userData} = state.authReducer;
     return {
         phoneValue,
         passwordValue,
@@ -195,7 +131,7 @@ const mapStateToProps = (state) => {
         userData
     }
   }
-  export default connect(
+export default connect(
     mapStateToProps,
     {
       signInClicked,
@@ -203,4 +139,4 @@ const mapStateToProps = (state) => {
       passwordChange,
       
     }
-  )(SignIn)
+)(SignIn)

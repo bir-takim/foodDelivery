@@ -98,8 +98,8 @@ const CustomTabBar = (props) =>{
 }
 
 const Tabs = ({route}) => {
-    // console.log("route", route.params.userData);
-    // const userInfos = route.params.userData
+     console.log("route", route.params.data.fullName);
+     const userInfos = route.params.data
     return (
         <Tab.Navigator
             screenOptions={{headerShown: false}}
@@ -120,7 +120,7 @@ const Tabs = ({route}) => {
             <Tab.Screen 
                 name="Home"
                 component={Home}
-                // initialParams={{userInfos: userInfos}}
+                initialParams={{userInfos: userInfos}}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="silverware-fork-knife" color={'orange'} size={35} />
@@ -149,6 +149,7 @@ const Tabs = ({route}) => {
              <Tab.Screen 
                 name="Like"
                 component={MyFavourite}
+                initialParams={{userInfos: userInfos}}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="cards-heart" color={'orange'} size={35} />
@@ -163,7 +164,7 @@ const Tabs = ({route}) => {
              <Tab.Screen 
                 name="User"
                 component={MyProfile}
-                // initialParams={{userInfos: userInfos}}
+                initialParams={{userInfos: userInfos}}
                 options={{
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons name="account" color={'orange'} size={35} />
